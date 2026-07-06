@@ -1,0 +1,11 @@
+C:\Projects\project 15\TaskPRO\backend\src\TaskPRO.Domain\bin\Debug\net8.0\TaskPRO.Domain.deps.json
+C:\Projects\project 15\TaskPRO\backend\src\TaskPRO.Domain\bin\Debug\net8.0\TaskPRO.Domain.dll
+C:\Projects\project 15\TaskPRO\backend\src\TaskPRO.Domain\bin\Debug\net8.0\TaskPRO.Domain.pdb
+C:\Projects\project 15\TaskPRO\backend\src\TaskPRO.Domain\obj\Debug\net8.0\TaskPRO.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Projects\project 15\TaskPRO\backend\src\TaskPRO.Domain\obj\Debug\net8.0\TaskPRO.Domain.AssemblyInfoInputs.cache
+C:\Projects\project 15\TaskPRO\backend\src\TaskPRO.Domain\obj\Debug\net8.0\TaskPRO.Domain.AssemblyInfo.cs
+C:\Projects\project 15\TaskPRO\backend\src\TaskPRO.Domain\obj\Debug\net8.0\TaskPRO.Domain.csproj.CoreCompileInputs.cache
+C:\Projects\project 15\TaskPRO\backend\src\TaskPRO.Domain\obj\Debug\net8.0\TaskPRO.Domain.dll
+C:\Projects\project 15\TaskPRO\backend\src\TaskPRO.Domain\obj\Debug\net8.0\refint\TaskPRO.Domain.dll
+C:\Projects\project 15\TaskPRO\backend\src\TaskPRO.Domain\obj\Debug\net8.0\TaskPRO.Domain.pdb
+C:\Projects\project 15\TaskPRO\backend\src\TaskPRO.Domain\obj\Debug\net8.0\ref\TaskPRO.Domain.dll

@@ -1,0 +1,56 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "TaskPRO.Infrastructure/1.0.0": {
+        "dependencies": {
+          "TaskPRO.Application": "1.0.0",
+          "TaskPRO.Domain": "1.0.0"
+        },
+        "runtime": {
+          "TaskPRO.Infrastructure.dll": {}
+        }
+      },
+      "TaskPRO.Application/1.0.0": {
+        "dependencies": {
+          "TaskPRO.Domain": "1.0.0"
+        },
+        "runtime": {
+          "TaskPRO.Application.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "TaskPRO.Domain/1.0.0": {
+        "runtime": {
+          "TaskPRO.Domain.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "TaskPRO.Infrastructure/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "TaskPRO.Application/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "TaskPRO.Domain/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
