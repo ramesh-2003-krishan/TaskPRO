@@ -13,3 +13,4 @@ C:\Projects\project 15\TaskPRO\backend\src\TaskPRO.Application\obj\Debug\net8.0\
 C:\Projects\project 15\TaskPRO\backend\src\TaskPRO.Application\obj\Debug\net8.0\refint\TaskPRO.Application.dll
 C:\Projects\project 15\TaskPRO\backend\src\TaskPRO.Application\obj\Debug\net8.0\TaskPRO.Application.pdb
 C:\Projects\project 15\TaskPRO\backend\src\TaskPRO.Application\obj\Debug\net8.0\ref\TaskPRO.Application.dll
+C:\Projects\project 15\TaskPRO\backend\src\TaskPRO.Application\obj\Debug\net8.0\TaskPRO.Application.sourcelink.json

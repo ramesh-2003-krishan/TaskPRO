@@ -9,3 +9,4 @@ C:\Projects\project 15\TaskPRO\backend\src\TaskPRO.Domain\obj\Debug\net8.0\TaskP
 C:\Projects\project 15\TaskPRO\backend\src\TaskPRO.Domain\obj\Debug\net8.0\refint\TaskPRO.Domain.dll
 C:\Projects\project 15\TaskPRO\backend\src\TaskPRO.Domain\obj\Debug\net8.0\TaskPRO.Domain.pdb
 C:\Projects\project 15\TaskPRO\backend\src\TaskPRO.Domain\obj\Debug\net8.0\ref\TaskPRO.Domain.dll
+C:\Projects\project 15\TaskPRO\backend\src\TaskPRO.Domain\obj\Debug\net8.0\TaskPRO.Domain.sourcelink.json

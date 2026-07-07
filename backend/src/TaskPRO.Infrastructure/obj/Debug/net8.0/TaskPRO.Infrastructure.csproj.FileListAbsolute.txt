@@ -15,3 +15,6 @@ C:\Projects\project 15\TaskPRO\backend\src\TaskPRO.Infrastructure\obj\Debug\net8
 C:\Projects\project 15\TaskPRO\backend\src\TaskPRO.Infrastructure\obj\Debug\net8.0\refint\TaskPRO.Infrastructure.dll
 C:\Projects\project 15\TaskPRO\backend\src\TaskPRO.Infrastructure\obj\Debug\net8.0\TaskPRO.Infrastructure.pdb
 C:\Projects\project 15\TaskPRO\backend\src\TaskPRO.Infrastructure\obj\Debug\net8.0\ref\TaskPRO.Infrastructure.dll
+C:\Projects\project 15\TaskPRO\backend\src\TaskPRO.Infrastructure\obj\Debug\net8.0\TaskPRO.Infrastructure.sourcelink.json
+C:\Projects\project 15\TaskPRO\backend\src\TaskPRO.Infrastructure\bin\Debug\net8.0\TaskPRO.Infrastructure.runtimeconfig.json
+C:\Projects\project 15\TaskPRO\backend\src\TaskPRO.Infrastructure\obj\Debug\net8.0\TaskPRO.Infrastructure.genruntimeconfig.cache
