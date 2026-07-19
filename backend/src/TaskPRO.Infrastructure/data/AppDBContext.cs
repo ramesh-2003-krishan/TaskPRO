@@ -1,4 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using TaskPRO.Domain.entities;
+using TaskPRO.Domain.enums;
 
 namespace TaskPRO.Infrastructure.Data;
 
@@ -7,5 +9,21 @@ public class AppDBContext : DbContext
     public AppDBContext(DbContextOptions<AppDBContext> options)
         : base(options)
     {
+    }
+
+    public DbSet<Role> Roles { get; set; }
+    public DbSet<TaskItem> Tasks { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<Role>()
+            .Property(r => r.Name)
+            .HasConversion<String>();
+
+        modelBuilder.Entity<TaskItem>()
+            .Property(t => t.Status)
+            .HasConversion<String>();
     }
 }
