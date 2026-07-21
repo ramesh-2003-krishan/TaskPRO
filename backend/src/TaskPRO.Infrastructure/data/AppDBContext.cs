@@ -13,6 +13,7 @@ public class AppDBContext : DbContext
 
     public DbSet<Role> Roles { get; set; }
     public DbSet<TaskItem> Tasks { get; set; }
+    public DbSet<User> Users { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -24,6 +25,10 @@ public class AppDBContext : DbContext
 
         modelBuilder.Entity<TaskItem>()
             .Property(t => t.Status)
+            .HasConversion<String>();
+
+        modelBuilder.Entity<User>()
+            .Property(u => u.Name)
             .HasConversion<String>();
     }
 }
