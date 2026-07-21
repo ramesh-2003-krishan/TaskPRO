@@ -7,3 +7,14 @@ namespace TaskPRO.Domain.enums
        Member
     }
 }
+
+namespace TaskPRO.Domain.enums
+{
+    public enum ProjectUserRole
+    {
+        Role,
+        Project,
+        Task,
+        Notification
+    }
+}
