@@ -18,3 +18,13 @@ namespace TaskPRO.Domain.enums
         Notification
     }
 }
+
+namespace TaskPRO.Domain.enums
+{
+    public enum ProjectprojectRole
+    {
+        Owner,
+        Member,
+        Tasks
+    }
+}
