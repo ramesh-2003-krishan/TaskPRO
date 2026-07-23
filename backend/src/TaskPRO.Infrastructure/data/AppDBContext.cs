@@ -15,6 +15,7 @@ public class AppDBContext : DbContext
     public DbSet<TaskItem> Tasks { get; set; }
     public DbSet<User> Users { get; set; }
     public DbSet<RefreshToken> RefreshTokens { get; set; }
+    public DbSet<Project> Projects { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -30,6 +31,10 @@ public class AppDBContext : DbContext
 
         modelBuilder.Entity<User>()
             .Property(u => u.Name)
+            .HasConversion<String>();
+
+        modelBuilder.Entity<Project>()
+            .Property(p => p.Role)
             .HasConversion<String>();
 
     }
