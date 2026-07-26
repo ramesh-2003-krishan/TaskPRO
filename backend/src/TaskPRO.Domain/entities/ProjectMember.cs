@@ -9,7 +9,7 @@ namespace TaskPRO.Domain.entities
         public int UserId { get; set; }
 
         public int ProjectId { get; set; }
-        public ProjectprojectRole Role { get; set; }= ProjectprojectRole.Member;
+        public ProjectRole Role { get; set; }= ProjectRole.Member;
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public User? User { get; set; }
