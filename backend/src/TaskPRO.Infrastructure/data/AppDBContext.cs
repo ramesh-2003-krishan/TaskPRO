@@ -30,6 +30,31 @@ public class AppDBContext : DbContext
             .Property(t => t.Status)
             .HasConversion<String>();
 
+        modelBuilder.Entity<TaskItem>()
+            .Property(t => t.Priority)
+            .HasConversion<String>();
+
+        modelBuilder.Entity<TaskItem>()
+            .HasMany(t => t.Comments)
+            .WithOne(c => c.TaskItem)
+            .HasForeignKey(c => c.TaskItemId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<TaskItem>()
+            .HasMany<User>()
+            .WithMany()
+            .UsingEntity<Dictionary<string, object>>(
+                "TaskItemUser",
+                j => j.HasOne<User>().WithMany().HasForeignKey("UserId").OnDelete(DeleteBehavior.Cascade),
+                j => j.HasOne<TaskItem>().WithMany().HasForeignKey("TaskItemId").OnDelete(DeleteBehavior.Cascade)
+            );
+
+        modelBuilder.Entity<TaskItem>()
+            .HasOne<User>()
+            .WithMany()
+            .HasForeignKey(t => t.CreatedByUserId)
+            .OnDelete(DeleteBehavior.Restrict);
+
         modelBuilder.Entity<User>()
             .Property(u => u.Name)
             .HasConversion<String>();
