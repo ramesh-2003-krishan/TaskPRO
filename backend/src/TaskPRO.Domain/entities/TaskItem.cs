@@ -15,9 +15,9 @@ namespace TaskPRO.Domain.entities
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
         public DateOnly DueDate { get; set; } = DateOnly.FromDateTime(DateTime.UtcNow.AddDays(7));
-        public int? AssignedToUserId { get; set; }
+        public Guid? AssignedToUserId { get; set; }
         public int ProjectId { get; set; }
-        public int CreatedByUserId { get; set; }
+        public Guid CreatedByUserId { get; set; }
 
         public User? user { get; set; }
         public Project? project { get; set; }
@@ -28,15 +28,7 @@ namespace TaskPRO.Domain.entities
 
     }
 
-    public class TaskComment
-    {
-        public int Id { get; set; }
-        public string Content { get; set; } = string.Empty;
-        public int TaskItemId { get; set; }
-        public TaskItem? TaskItem { get; set; }
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-    }
-
+  
     public class TaskAttachment
     {
         public int Id { get; set; }
