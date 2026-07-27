@@ -17,6 +17,9 @@ public class AppDBContext : DbContext
     public DbSet<RefreshToken> RefreshTokens { get; set; }
     public DbSet<Project> Projects { get; set; }
     public DbSet<ProjectMember> ProjectMembers { get; set; }
+    public DbSet<TaskComment> TaskComments { get; set; }
+    public DbSet<TaskAttachment> TaskAttachments { get; set; }
+    public DbSet<Notification> Notifications { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -66,6 +69,22 @@ public class AppDBContext : DbContext
         modelBuilder.Entity<ProjectMember>()
             .Property(pm => pm.Role)
             .HasConversion<String>();
+
+        modelBuilder.Entity<Notification>()
+            .Property(n => n.Type)
+            .HasConversion<String>();
+
+        modelBuilder.Entity<TaskAttachment>()
+            .HasOne(ta => ta.TaskItem)
+            .WithMany(t => t.Attachments)
+            .HasForeignKey(ta => ta.TaskItemId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<TaskComment>()
+            .HasOne(tc => tc.TaskItem)
+            .WithMany(t => t.Comments)
+            .HasForeignKey(tc => tc.TaskItemId)
+            .OnDelete(DeleteBehavior.Cascade);
 
     }
 }
