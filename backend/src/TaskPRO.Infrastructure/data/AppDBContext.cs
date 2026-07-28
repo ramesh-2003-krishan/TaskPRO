@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using TaskPRO.Domain.entities;
 using TaskPRO.Domain.enums;
@@ -20,6 +21,7 @@ public class AppDBContext : DbContext
     public DbSet<TaskComment> TaskComments { get; set; }
     public DbSet<TaskAttachment> TaskAttachments { get; set; }
     public DbSet<Notification> Notifications { get; set; }
+    public DbSet<ActivityLog> ActivityLogs { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -84,6 +86,12 @@ public class AppDBContext : DbContext
             .HasOne(tc => tc.TaskItem)
             .WithMany(t => t.Comments)
             .HasForeignKey(tc => tc.TaskItemId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<ActivityLog>()
+            .HasOne(al => al.User)
+            .WithMany()
+            .HasForeignKey(al => al.UserId)
             .OnDelete(DeleteBehavior.Cascade);
 
     }
