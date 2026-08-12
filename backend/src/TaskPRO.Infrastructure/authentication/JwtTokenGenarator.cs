@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using TaskPRO.Application.interfaces;
 using TaskPRO.Domain.entities;
+using System.Security.Cryptography;
 
 namespace TaskPRO.Infrastructure.authentication
 {
@@ -21,6 +22,14 @@ namespace TaskPRO.Infrastructure.authentication
 
         public string GenerateToken(User user, string roleName)
         {
+            var jwtSettings = _configuration.GetSection("Jwt");
+            var secretKey = jwtSettings["SecretKey"];
+
+            if (string.IsNullOrEmpty(secretKey))
+            {
+                throw new InvalidOperationException("JWT secret key is not configured.");
+            }
+
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
@@ -29,19 +38,38 @@ namespace TaskPRO.Infrastructure.authentication
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:SecretKey"]));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-            var expires = DateTime.Now.AddMinutes(Convert.ToDouble(_configuration["Jwt:TokenExpirationInMinutes"]));
+            var expires = DateTime.Now.AddMinutes(Convert.ToDouble(jwtSettings["TokenExpirationInMinutes"]));
 
             var token = new JwtSecurityToken(
-                issuer: _configuration["Jwt:Issuer"],
-                audience: _configuration["Jwt:Audience"],
+                issuer: jwtSettings["Issuer"],
+                audience: jwtSettings["Audience"],
                 claims: claims,
                 expires: expires,
                 signingCredentials: creds);
 
             return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+        public RefreshToken GenerateRefreshToken(int userId)
+        {
+            var jwtSettings = _configuration.GetSection("Jwt");
+            var expires = DateTime.Now.AddDays(Convert.ToDouble(jwtSettings["RefreshTokenExpirationInDays"]));
+
+            var randomNumber = new byte[32];
+            using var ran = RandomNumberGenerator.Create();
+            ran.GetBytes(randomNumber);
+
+            return new RefreshToken
+            {
+                Token = Convert.ToBase64String(randomNumber),
+                Expires = DateTime.UtcNow.AddDays(Convert.ToDouble(jwtSettings["RefreshTokenExpirationInDays"])),
+                Created = DateTime.UtcNow,
+                UserId = userId
+            
+            };
         }
     }
 }
