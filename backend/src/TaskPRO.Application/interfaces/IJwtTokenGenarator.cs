@@ -6,7 +6,7 @@ namespace TaskPRO.Application.interfaces
     {
         string GenerateToken(User user, string roleName);
 
-        RefreshToken GenerateRefreshToken(int userId);
+        RefreshToken GenerateRefreshToken(Guid userId);
     }
 
 
