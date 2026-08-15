@@ -34,13 +34,14 @@ namespace TaskPRO.API.controllers
         {
             if (request.Password != request.ConfirmPassword)
             {
-                return BadRequest("Passwords do not match.");
+               
+                return StatusCode(400, "Passwords do not match.");
             }
 
             var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.UserEmail == request.Email);
             if (existingUser != null)
             {
-                return BadRequest("Email is already in use.");
+                return StatusCode(400, "Email is already in use.");
             }
 
             var user = new User
@@ -54,7 +55,7 @@ namespace TaskPRO.API.controllers
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
-            return Ok("User registered successfully.");
+            return StatusCode(201, "User registered successfully.");
         }
 
         [HttpPost("login")]
@@ -63,7 +64,7 @@ namespace TaskPRO.API.controllers
             var user = await _context.Users.FirstOrDefaultAsync(u => u.UserEmail == request.Email);
             if (user == null || !_passwordHasher.VerifyPassword(request.Password, user.PasswordHashedValue))
             {
-                return Unauthorized("Invalid email or password.");
+                return StatusCode(401, "Invalid email or password.");
             }
 
             var role = user.Name.ToString();
@@ -86,13 +87,13 @@ namespace TaskPRO.API.controllers
             var existingToken = await _context.RefreshTokens.FirstOrDefaultAsync(rt => rt.Token == request.RefreshToken);
             if (existingToken == null || existingToken.IsExpired || existingToken.Revoked != null)
             {
-                return Unauthorized("Invalid or expired refresh token.");
+                return StatusCode(401, "Invalid or expired refresh token.");
             }
 
             var user = await _context.Users.FindAsync(existingToken.UserId);
             if (user == null)
             {
-                return Unauthorized("User not found.");
+                return StatusCode(401, "User not found.");
             }
 
             var role = user.Name.ToString();
@@ -120,7 +121,7 @@ namespace TaskPRO.API.controllers
                 await _context.SaveChangesAsync();
             }
 
-            return Ok("Logged out successfully.");
+            return StatusCode(200, "Logged out successfully.");
         }
 
 
@@ -131,14 +132,14 @@ namespace TaskPRO.API.controllers
             var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
             if (userIdClaim == null)
             {
-                return Unauthorized("User ID claim not found.");
+                return StatusCode(401, "User ID claim not found.");
             }
 
             var userId = Guid.Parse(userIdClaim.Value);
             var user = await _context.Users.FindAsync(userId);
             if (user == null)
             {
-                return NotFound("User not found.");
+                return StatusCode(404, "User not found.");
             }
 
             return Ok(new

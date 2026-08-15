@@ -4,6 +4,10 @@
     <ProjectReference Include="..\TaskPRO.Domain\TaskPRO.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="PasswordValidator" Version="1.0.2" />
+  </ItemGroup>
+
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>

@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "xHq0vP7RNJw=",
+  "dgSpecHash": "qrv8ckmnu/c=",
   "success": true,
   "projectFilePath": "C:\\Projects\\project 15\\TaskPRO\\backend\\src\\TaskPRO.Application\\TaskPRO.Application.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\User\\.nuget\\packages\\passwordvalidator\\1.0.2\\passwordvalidator.1.0.2.nupkg.sha512"
+  ],
   "logs": []
 }

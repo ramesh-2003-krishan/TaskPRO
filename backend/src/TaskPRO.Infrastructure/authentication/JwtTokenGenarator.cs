@@ -53,7 +53,7 @@ namespace TaskPRO.Infrastructure.authentication
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        public RefreshToken GenerateRefreshToken(int userId)
+        public RefreshToken GenerateRefreshToken(Guid userId)
         {
             var jwtSettings = _configuration.GetSection("Jwt");
             var expires = DateTime.Now.AddDays(Convert.ToDouble(jwtSettings["RefreshTokenExpirationInDays"]));
@@ -68,7 +68,6 @@ namespace TaskPRO.Infrastructure.authentication
                 Expires = DateTime.UtcNow.AddDays(Convert.ToDouble(jwtSettings["RefreshTokenExpirationInDays"])),
                 Created = DateTime.UtcNow,
                 UserId = userId
-            
             };
         }
     }
