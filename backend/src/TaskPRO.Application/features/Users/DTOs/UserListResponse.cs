@@ -1,0 +1,12 @@
+using System;
+
+namespace TaskPRO.Application.features.Users.DTOs
+{
+    public class UserListResponse
+    {
+      public List<UserResponse> Users { get; set; } = new List<UserResponse>();
+      public int TotalCount { get; set; }
+      public int PageNumber { get; set; }
+      public int PageSize { get; set; }
+    }
+}
