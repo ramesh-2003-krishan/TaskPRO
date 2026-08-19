@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using TaskPRO.Infrastructure.Data;
 using TaskPRO.Infrastructure.authentication;
 using TaskPRO.Application.interfaces;
+using TaskPRO.Infrastructure.authentication.CurrentUserService;
 
 namespace TaskPRO.Infrastructure;
 
@@ -19,6 +20,10 @@ public static class DependencyInjection
         services.AddScoped<IPasswordHasher, PasswordHasher>();
 
         services.AddScoped<IJwtTokenGenarator, JwtTokenGenarator>();
+
+        services.AddHttpContextAccessor();
+        
+        services.AddScoped<ICurrentUserService, CurrentUserService>();
 
         return services;
     }
