@@ -2,19 +2,20 @@ using System.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using TaskPRO.Domain.entities;
 using TaskPRO.Domain.enums;
+using TaskPRO.Application.features.Users.Interfaces;
 
 namespace TaskPRO.Infrastructure.Data;
 
-public class AppDBContext : DbContext
+public class AppDBContext : DbContext, IAppDbContext
 {
     public AppDBContext(DbContextOptions<AppDBContext> options)
         : base(options)
     {
     }
 
+    public DbSet<User> Users { get; set; }
     public DbSet<Role> Roles { get; set; }
     public DbSet<TaskItem> Tasks { get; set; }
-    public DbSet<User> Users { get; set; }
     public DbSet<RefreshToken> RefreshTokens { get; set; }
     public DbSet<Project> Projects { get; set; }
     public DbSet<ProjectMember> ProjectMembers { get; set; }
@@ -95,4 +96,7 @@ public class AppDBContext : DbContext
             .OnDelete(DeleteBehavior.Cascade);
 
     }
+
+
 }
+
