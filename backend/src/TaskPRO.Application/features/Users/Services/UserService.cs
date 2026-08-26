@@ -6,23 +6,23 @@ using TaskPRO.Application.features.Users.Interfaces;
 using TaskPRO.Domain.entities;
 using TaskPRO.Domain.enums;
 using Microsoft.EntityFrameworkCore;
-
+using TaskPRO.Application.Features.Users.Interfaces;
 
 
 namespace TaskPRO.Application.features.Users.Services
 {
     public class UserService : IUserService
     {
-        private readonly IAppDbContext _dbContext;
+        private readonly IUserRepository _userRepository;
 
-        public UserService(IAppDbContext dbContext)
+        public UserService(IUserRepository userRepository)
         {
-            _dbContext = dbContext;
+            _userRepository = userRepository;
         }
 
         public async Task<UserResponse> GetProfileAsync(Guid userId)
         {
-            var user = await _dbContext.Users.FindAsync(userId);
+            var user = await _userRepository.GetUserByIdAsync(userId);
 
             if (user == null)
             {
@@ -34,7 +34,7 @@ namespace TaskPRO.Application.features.Users.Services
 
         public async Task<UserResponse> GetUserByIdAsync(Guid userId, UpdateProfileRequest UpdateUserDto)
         {
-            var user = await _dbContext.Users.FindAsync(userId);
+            var user = await _userRepository.GetUserByIdAsync(userId);
 
             if (user == null)
             {
@@ -50,7 +50,7 @@ namespace TaskPRO.Application.features.Users.Services
 
         public async Task<bool> UpdateUserStatusAsync(Guid userId, bool isActive)
         {
-            var user = await _dbContext.Users.FindAsync(userId);
+            var user = await _userRepository.GetUserByIdAsync(userId);
 
             if (user == null)
             {
@@ -58,14 +58,14 @@ namespace TaskPRO.Application.features.Users.Services
             }
 
             user.IsActive = isActive;
-            await _dbContext.SaveChangesAsync(default);
+            await _userRepository.UpdateUserAsync(user);
 
             return true;
         }
 
         public async Task<bool> UpdateUserRoleAsync(Guid userId, string role)
         {
-            var user = await _dbContext.Users.FindAsync(userId);
+            var user = await _userRepository.GetUserByIdAsync(userId);
 
             if (user == null)
             {
@@ -78,14 +78,14 @@ namespace TaskPRO.Application.features.Users.Services
             }
 
             user.Name = parsedRole;
-            await _dbContext.SaveChangesAsync(default);
+            await _userRepository.UpdateUserAsync(user);
 
             return true;
         }
 
         public async Task<bool> ChangePasswordAsync(Guid userId, ChangePasswordRequest updatePasswordDto)
         {
-            var user = await _dbContext.Users.FindAsync(userId);
+            var user = await _userRepository.GetUserByIdAsync(userId);
 
             if (user == null)
             {
@@ -95,14 +95,14 @@ namespace TaskPRO.Application.features.Users.Services
           
             user.PasswordHashedValue = updatePasswordDto.NewPassword; 
 
-            await _dbContext.SaveChangesAsync(default);
+            await _userRepository.UpdateUserAsync(user);
 
             return true;
         }
 
         public async Task<UserListResponse> GetUserAsync(UserListRequest userListRequest)
         {
-            var users = await _dbContext.Users.ToListAsync();
+            var users = await _userRepository.GetAllUsersAsync();
 
             var userResponses = new List<UserResponse>();
 
@@ -119,7 +119,7 @@ namespace TaskPRO.Application.features.Users.Services
 
         public async Task<UserResponse> UpdateProfileAsync(Guid userId, UpdateProfileRequest updateUserDto)
         {
-            var user = await _dbContext.Users.FindAsync(userId);
+            var user = await _userRepository.GetUserByIdAsync(userId);
 
             if (user == null)
             {
@@ -129,29 +129,28 @@ namespace TaskPRO.Application.features.Users.Services
             user.Username = updateUserDto.Username;
             user.UserEmail = updateUserDto.Email;
 
-            await _dbContext.SaveChangesAsync(default);
+            await _userRepository.UpdateUserAsync(user);
 
             return MapToUserResponse(user);
         }
 
         public async Task<bool> DeleteUserAsync(Guid userId)
         {
-            var user = await _dbContext.Users.FindAsync(userId);
+            var user = await _userRepository.GetUserByIdAsync(userId);
 
             if (user == null)
             {
                 throw new KeyNotFoundException($"User with ID {userId} not found.");
             }
 
-            _dbContext.Users.Remove(user);
-            await _dbContext.SaveChangesAsync(default);
+            await _userRepository.DeleteUserAsync(userId);
 
             return true;
         }
 
         public async Task<UserResponse> GetUserByIdAsync(Guid userId)
         {
-            var user = await _dbContext.Users.FindAsync(userId);
+            var user = await _userRepository.GetUserByIdAsync(userId);
 
             if (user == null)
             {
