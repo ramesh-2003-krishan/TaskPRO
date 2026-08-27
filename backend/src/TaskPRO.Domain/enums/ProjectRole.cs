@@ -25,6 +25,6 @@ namespace TaskPRO.Domain.enums
     {
         Owner,
         Member,
-        Tasks
+        Manager
     }
 }

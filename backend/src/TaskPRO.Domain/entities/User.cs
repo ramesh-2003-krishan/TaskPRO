@@ -21,6 +21,7 @@ namespace TaskPRO.Domain.entities
         public bool IsActive { get; set; } = true;
 
         public ICollection<RefreshToken> RefreshTokens { get; set; } = new List<RefreshToken>();
+        public virtual ICollection<ProjectMember> ProjectMembers { get; set; } = new List<ProjectMember>();
 
         
 

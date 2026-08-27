@@ -165,15 +165,12 @@ namespace TaskPRO.Infrastructure.Data.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
-
-                    b.Property<Guid?>("UserId1")
+                    b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId1");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Projects");
                 });
@@ -187,27 +184,20 @@ namespace TaskPRO.Infrastructure.Data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int>("ProjectId")
-                        .HasColumnType("integer");
-
-                    b.Property<Guid?>("ProjectId1")
+                    b.Property<Guid>("ProjectId")
                         .HasColumnType("uuid");
 
-                    b.Property<string>("Role")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("UserId")
+                    b.Property<int>("Role")
                         .HasColumnType("integer");
 
-                    b.Property<Guid?>("UserId1")
+                    b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProjectId1");
+                    b.HasIndex("ProjectId");
 
-                    b.HasIndex("UserId1");
+                    b.HasIndex("UserId");
 
                     b.ToTable("ProjectMembers");
                 });
@@ -224,6 +214,9 @@ namespace TaskPRO.Infrastructure.Data.Migrations
                     b.Property<DateTime>("Expires")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<string>("ReplacedByToken")
+                        .HasColumnType("text");
+
                     b.Property<DateTime?>("Revoked")
                         .HasColumnType("timestamp with time zone");
 
@@ -231,15 +224,12 @@ namespace TaskPRO.Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
-
-                    b.Property<Guid?>("UserId1")
+                    b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId1");
+                    b.HasIndex("UserId");
 
                     b.ToTable("RefreshTokens");
                 });
@@ -401,7 +391,22 @@ namespace TaskPRO.Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("PasswordHashedValue")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("UserEmail")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Username")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -462,7 +467,9 @@ namespace TaskPRO.Infrastructure.Data.Migrations
                 {
                     b.HasOne("TaskPRO.Domain.entities.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId1");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });
@@ -470,12 +477,16 @@ namespace TaskPRO.Infrastructure.Data.Migrations
             modelBuilder.Entity("TaskPRO.Domain.entities.ProjectMember", b =>
                 {
                     b.HasOne("TaskPRO.Domain.entities.Project", "Project")
-                        .WithMany()
-                        .HasForeignKey("ProjectId1");
+                        .WithMany("ProjectMembers")
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("TaskPRO.Domain.entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId1");
+                        .WithMany("ProjectMembers")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Project");
 
@@ -485,8 +496,10 @@ namespace TaskPRO.Infrastructure.Data.Migrations
             modelBuilder.Entity("TaskPRO.Domain.entities.RefreshToken", b =>
                 {
                     b.HasOne("TaskPRO.Domain.entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId1");
+                        .WithMany("RefreshTokens")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });
@@ -548,6 +561,11 @@ namespace TaskPRO.Infrastructure.Data.Migrations
                     b.Navigation("user");
                 });
 
+            modelBuilder.Entity("TaskPRO.Domain.entities.Project", b =>
+                {
+                    b.Navigation("ProjectMembers");
+                });
+
             modelBuilder.Entity("TaskPRO.Domain.entities.TaskItem", b =>
                 {
                     b.Navigation("Attachments");
@@ -555,6 +573,13 @@ namespace TaskPRO.Infrastructure.Data.Migrations
                     b.Navigation("Comments");
 
                     b.Navigation("SubTasks");
+                });
+
+            modelBuilder.Entity("TaskPRO.Domain.entities.User", b =>
+                {
+                    b.Navigation("ProjectMembers");
+
+                    b.Navigation("RefreshTokens");
                 });
 #pragma warning restore 612, 618
         }

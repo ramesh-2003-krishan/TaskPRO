@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using TaskPRO.Domain.entities;
 using TaskPRO.Domain.enums;
 using TaskPRO.Application.features.Users.Interfaces;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace TaskPRO.Infrastructure.Data;
 
@@ -23,6 +24,7 @@ public class AppDBContext : DbContext, IAppDbContext
     public DbSet<TaskAttachment> TaskAttachments { get; set; }
     public DbSet<Notification> Notifications { get; set; }
     public DbSet<ActivityLog> ActivityLogs { get; set; }
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -65,13 +67,38 @@ public class AppDBContext : DbContext, IAppDbContext
             .Property(u => u.Name)
             .HasConversion<String>();
 
-        modelBuilder.Entity<Project>()
-            .Property(p => p.Role)
+        modelBuilder.Entity<Project>(entity=>
+        {
+            entity.HasKey(p=>p.Id);
+
+            entity.Property(p=>p.Role)
             .HasConversion<String>();
 
-        modelBuilder.Entity<ProjectMember>()
-            .Property(pm => pm.Role)
-            .HasConversion<String>();
+            entity.Property(p=>p.Status)
+            .HasConversion<string>();
+
+            entity.HasOne(p=>p.User)
+            .WithMany()
+            .HasForeignKey(p=>p.UserId)
+            .OnDelete(DeleteBehavior.Restrict);
+        });
+            
+
+        modelBuilder.Entity<ProjectMember>(entity=>
+        {
+            entity.HasKey(pm => pm.Id);
+
+            entity.HasOne(pm => pm.Project)
+            .WithMany(p => p.ProjectMembers)
+            .HasForeignKey(pm => pm.ProjectId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(pm => pm.User)
+            .WithMany(u => u.ProjectMembers)
+            .HasForeignKey(pm => pm.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        });
 
         modelBuilder.Entity<Notification>()
             .Property(n => n.Type)
@@ -94,6 +121,8 @@ public class AppDBContext : DbContext, IAppDbContext
             .WithMany()
             .HasForeignKey(al => al.UserId)
             .OnDelete(DeleteBehavior.Cascade);
+
+       
 
     }
 
