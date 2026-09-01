@@ -30,6 +30,8 @@ public class AppDBContext : DbContext, IAppDbContext
     {
         base.OnModelCreating(modelBuilder);
 
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppContext).Assembly);
+
         modelBuilder.Entity<Role>()
             .Property(r => r.Name)
             .HasConversion<String>();
