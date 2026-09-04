@@ -1,6 +1,8 @@
 using TaskPRO.Infrastructure;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using TaskPRO.Application.features.Projects.Services;
+using TaskPRO.Application.features.Projects.Interfaces;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +15,7 @@ builder.Services.AddValidatorsFromAssemblyContaining<TaskPRO.Application.feature
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddScoped<IProjectService, ProjectService>();
 
 var app = builder.Build();
 
