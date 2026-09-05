@@ -63,5 +63,26 @@ namespace TaskPRO.Application.features.Projects.Services
                 }
             };
         }
+
+
+        public async Task<ProjectDetailResponse> GetProjectByIdAsync(Guid projectId)
+        {
+            var project = await _projectRepository.GetProjectByIdAsync(projectId);
+
+            if (project == null)
+            {
+                throw new Exception("Project not found");
+            }
+
+            return new ProjectDetailResponse
+            {
+                Id = project.Id,
+                Name = project.Name,
+                Description = project.Description,
+                Status = project.Status,
+                CreatedAt = project.CreatedAt,
+                UpdatedAt = project.UpdatedAt
+            };
+        }
     }
 }

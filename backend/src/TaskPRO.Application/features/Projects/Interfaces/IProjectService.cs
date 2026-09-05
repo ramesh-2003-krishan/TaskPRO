@@ -7,5 +7,6 @@ namespace TaskPRO.Application.features.Projects.Interfaces
     public interface IProjectService
     {
         Task<ProjectResponse> CreateProjectAsync (Guid CurrentUserId,CreateProjectRequest request);
+        Task<ProjectDetailResponse> GetProjectByIdAsync(Guid projectId);
     }
 }

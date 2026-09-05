@@ -36,6 +36,16 @@ namespace TaskPRO.API.controllers
 
             return CreatedAtAction(nameof(CreateProject), new { id = response.Id }, response);
         }
-      
+
+        [HttpGet("{projectId}")]
+        public async Task<ActionResult<ProjectDetailResponse>> GetProjectById(Guid projectId)
+        {
+            var response = await _projectService.GetProjectByIdAsync(projectId);
+            if (response == null)
+            {
+                return NotFound();
+            }
+            return Ok(response);
+        }
     }
 }
