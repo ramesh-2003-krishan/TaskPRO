@@ -47,5 +47,22 @@ namespace TaskPRO.API.controllers
             }
             return Ok(response);
         }
+
+        [HttpGet("{projectId}/my-details")]
+        public async Task<ActionResult<MyProjectDetailResponse>> GetMyProjectDetailBy(Guid projectId)
+        {
+            var currentUserId = _currentUserService.UserId;
+            if (currentUserId == null)
+            {
+                return Unauthorized();
+            }
+
+            var response = await _projectService.GetMyProjectDetailByAsync(projectId, currentUserId.Value);
+            if (response == null)
+            {
+                return NotFound();
+            }
+            return Ok(response);
+        }
     }
 }

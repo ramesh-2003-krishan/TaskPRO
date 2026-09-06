@@ -7,5 +7,6 @@ namespace TaskPRO.Application.features.Projects.Interfaces
         Task<Project?> GetProjectByIdAsync(Guid id);
         Task AddAsync(Project project);
         Task SaveChangesAsync();
+        Task<Project?> GetMyProjectDetailByAsync(Guid projectId, Guid userId);
     }
 }

@@ -2,6 +2,7 @@ using TaskPRO.Domain.entities;
 using TaskPRO.Domain.enums;
 using TaskPRO.Application.features.Projects.Interfaces;
 using TaskPRO.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace TaskPRO.Infrastructure.repositories
 {
@@ -44,6 +45,13 @@ namespace TaskPRO.Infrastructure.repositories
         public async Task AddAsync(Project project)
         {
             await _dbContext.Projects.AddAsync(project);
+        }
+
+        public  async Task<Project?> GetMyProjectDetailByAsync(Guid projectId, Guid userId)
+        {
+            return await _dbContext.Projects
+                .Where(p => p.Id == projectId && p.ProjectMembers.Any(pm => pm.UserId == userId))
+                .FirstOrDefaultAsync();
         }
     }
 }
