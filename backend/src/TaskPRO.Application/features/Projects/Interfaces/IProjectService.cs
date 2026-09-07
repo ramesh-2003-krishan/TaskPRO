@@ -9,5 +9,6 @@ namespace TaskPRO.Application.features.Projects.Interfaces
         Task<ProjectResponse> CreateProjectAsync (Guid CurrentUserId,CreateProjectRequest request);
         Task<ProjectDetailResponse> GetProjectByIdAsync(Guid projectId);
         Task<MyProjectDetailResponse> GetMyProjectDetailByAsync(Guid projectId, Guid userId);
+        Task<IEnumerable<ProjectResponse>> SearchProjectsAsync(Guid CurrentUserId, string? searchTerm, int pageNumber, int pageSize);
     }
 }

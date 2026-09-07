@@ -53,5 +53,21 @@ namespace TaskPRO.Infrastructure.repositories
                 .Where(p => p.Id == projectId && p.ProjectMembers.Any(pm => pm.UserId == userId))
                 .FirstOrDefaultAsync();
         }
+
+        public async Task<IEnumerable<Project>> SearchProjectsAsync(Guid CurrentUserId, string? searchTerm, int pageNumber, int pageSize)
+        {
+            var query = _dbContext.Projects
+                .Where(p => p.ProjectMembers.Any(pm => pm.UserId == CurrentUserId));
+
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                query = query.Where(p => p.Name.Contains(searchTerm) || p.Description.Contains(searchTerm));
+            }
+
+            return await query
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+        }
     }
 }

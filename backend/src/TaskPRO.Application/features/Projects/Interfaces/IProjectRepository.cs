@@ -8,5 +8,6 @@ namespace TaskPRO.Application.features.Projects.Interfaces
         Task AddAsync(Project project);
         Task SaveChangesAsync();
         Task<Project?> GetMyProjectDetailByAsync(Guid projectId, Guid userId);
+        Task<IEnumerable<Project>> SearchProjectsAsync(Guid CurrentUserId, string? searchTerm, int pageNumber, int pageSize);
     }
 }

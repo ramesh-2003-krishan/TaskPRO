@@ -64,5 +64,18 @@ namespace TaskPRO.API.controllers
             }
             return Ok(response);
         }
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<ProjectResponse>>> SearchProjects([FromQuery] string? searchTerm, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
+        {
+            var currentUserId = _currentUserService.UserId;
+            if (currentUserId == null)
+            {
+                return Unauthorized();
+            }
+
+            var response = await _projectService.SearchProjectsAsync(currentUserId.Value, searchTerm, pageNumber, pageSize);
+            return Ok(response);
+        }
     }
 }

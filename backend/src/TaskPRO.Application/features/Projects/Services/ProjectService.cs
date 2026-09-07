@@ -104,5 +104,26 @@ namespace TaskPRO.Application.features.Projects.Services
                 UpdatedAt = project.UpdatedAt
             };
         }
+
+        public async Task<IEnumerable<ProjectResponse>> SearchProjectsAsync(Guid CurrentUserId, string? searchTerm, int pageNumber, int pageSize)
+        {
+            var projects = await _projectRepository.SearchProjectsAsync(CurrentUserId, searchTerm, pageNumber, pageSize);
+
+            return projects.Select(project => new ProjectResponse
+            {
+                Id = project.Id,
+                ProjectName = project.Name,
+                Description = project.Description,
+                Status = project.Status,
+                OwnerId = project.UserId,
+                CreatedAt = project.CreatedAt,
+                Members = project.ProjectMembers.Select(pm => new ProjectMemberResponse
+                {
+                    UserId = pm.UserId,
+                    Role = pm.Role,
+                    JoinedAt = pm.CreatedAt
+                }).ToList()
+            });
+        }
     }
 }
