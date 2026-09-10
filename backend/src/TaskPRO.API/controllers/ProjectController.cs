@@ -114,6 +114,7 @@ namespace TaskPRO.API.controllers
             return Ok(response);
         }
         [HttpPut("{projectId}")]
+        [Authorize(Roles = "Admin, Owner, Manager")]
         public async Task<ActionResult<ProjectResponse>> UpdateProject(Guid projectId, [FromBody] UpdateProjectRequest request)
         {
             var currentUserId = _currentUserService.UserId;

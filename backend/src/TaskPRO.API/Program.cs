@@ -3,6 +3,8 @@ using FluentValidation;
 using FluentValidation.AspNetCore;
 using TaskPRO.Application.features.Projects.Services;
 using TaskPRO.Application.features.Projects.Interfaces;
+using TaskPRO.Application.common.interfaces;
+using TaskPRO.Infrastructure.services;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,6 +18,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddScoped<IProjectService, ProjectService>();
+builder.Services.AddScoped<IProjectAuthorizationService, ProjectAuthorizationService>();
 
 var app = builder.Build();
 
