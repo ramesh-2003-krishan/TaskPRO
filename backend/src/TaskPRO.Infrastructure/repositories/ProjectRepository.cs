@@ -87,5 +87,13 @@ namespace TaskPRO.Infrastructure.repositories
                 .Take(pageSize)
                 .ToListAsync();
         }
+        public async Task<IEnumerable<Project>> PaginateProjectsAsync(Guid CurrentUserId, int pageNumber, int pageSize)
+        {
+            return await _dbContext.Projects
+                .Where(p => p.ProjectMembers.Any(pm => pm.UserId == CurrentUserId))
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+        }
     }
 }

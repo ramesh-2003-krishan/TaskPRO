@@ -90,5 +90,18 @@ namespace TaskPRO.API.controllers
             var response = await _projectService.FilterProjectsAsync(currentUserId.Value, filterBy, pageNumber, pageSize);
             return Ok(response);
         }
+
+        [HttpGet("paginate")]
+        public async Task<ActionResult<IEnumerable<ProjectResponse>>> PaginateProjects([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
+        {
+            var currentUserId = _currentUserService.UserId;
+            if (currentUserId == null)
+            {
+                return Unauthorized();
+            }
+
+            var response = await _projectService.PaginateProjectsAsync(currentUserId.Value, pageNumber, pageSize);
+            return Ok(response);
+        }
     }
 }
