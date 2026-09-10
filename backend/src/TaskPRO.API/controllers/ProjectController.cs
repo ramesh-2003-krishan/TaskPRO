@@ -103,5 +103,31 @@ namespace TaskPRO.API.controllers
             var response = await _projectService.PaginateProjectsAsync(currentUserId.Value, pageNumber, pageSize);
             return Ok(response);
         }
+        [HttpGet("{projectId}/members/{userId}")]
+        public async Task<ActionResult<ProjectMemberResponse>> GetProjectMemberById(Guid projectId, Guid userId)
+        {
+            var response = await _projectService.GetProjectMemberByIdAsync(projectId, userId);
+            if (response == null)
+            {
+                return NotFound();
+            }
+            return Ok(response);
+        }
+        [HttpPut("{projectId}")]
+        public async Task<ActionResult<ProjectResponse>> UpdateProject(Guid projectId, [FromBody] UpdateProjectRequest request)
+        {
+            var currentUserId = _currentUserService.UserId;
+            if (currentUserId == null)
+            {
+                return Unauthorized();
+            }
+
+            var response = await _projectService.UpdateProjectAsync(currentUserId.Value, projectId, request);
+            if (response == null)
+            {
+                return NotFound();
+            }
+            return Ok(response);
+        }
     }
 }

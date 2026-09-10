@@ -95,5 +95,10 @@ namespace TaskPRO.Infrastructure.repositories
                 .Take(pageSize)
                 .ToListAsync();
         }
+        public async Task<ProjectMember?> GetProjectMemberByIdAsync(Guid projectId, Guid userId)
+        {
+            return await _dbContext.ProjectMembers
+                .FirstOrDefaultAsync(pm => pm.ProjectId == projectId && pm.UserId == userId);
+        }
     }
 }

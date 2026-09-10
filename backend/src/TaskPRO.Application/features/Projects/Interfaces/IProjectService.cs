@@ -12,5 +12,7 @@ namespace TaskPRO.Application.features.Projects.Interfaces
         Task<IEnumerable<ProjectResponse>> SearchProjectsAsync(Guid CurrentUserId, string? searchTerm, int pageNumber, int pageSize);
         Task<IEnumerable<ProjectResponse>> FilterProjectsAsync(Guid CurrentUserId, string? filterBy, int pageNumber, int pageSize);
         Task<IEnumerable<ProjectResponse>> PaginateProjectsAsync(Guid CurrentUserId, int pageNumber, int pageSize);
+        Task<ProjectMemberResponse?> GetProjectMemberByIdAsync(Guid projectId, Guid userId);
+        Task<ProjectResponse> UpdateProjectAsync(Guid CurrentUserId, Guid projectId, UpdateProjectRequest request);
     }
 }
