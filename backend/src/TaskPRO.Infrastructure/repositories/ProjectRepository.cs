@@ -69,5 +69,23 @@ namespace TaskPRO.Infrastructure.repositories
                 .Take(pageSize)
                 .ToListAsync();
         }
+        public async Task<IEnumerable<Project>> FilterProjectsAsync(Guid CurrentUserId, string? filterBy, int pageNumber, int pageSize)
+        {
+            var query = _dbContext.Projects
+                .Where(p => p.ProjectMembers.Any(pm => pm.UserId == CurrentUserId));
+
+            if (!string.IsNullOrEmpty(filterBy))
+            {
+                if (Enum.TryParse<ProjectStatus>(filterBy, true, out var status))
+                {
+                    query = query.Where(p => p.Status == status);
+                }
+            }
+
+            return await query
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+        }
     }
 }

@@ -9,5 +9,6 @@ namespace TaskPRO.Application.features.Projects.Interfaces
         Task SaveChangesAsync();
         Task<Project?> GetMyProjectDetailByAsync(Guid projectId, Guid userId);
         Task<IEnumerable<Project>> SearchProjectsAsync(Guid CurrentUserId, string? searchTerm, int pageNumber, int pageSize);
+        Task<IEnumerable<Project>> FilterProjectsAsync(Guid CurrentUserId, string? filterBy, int pageNumber, int pageSize);
     }
 }
