@@ -221,5 +221,20 @@ namespace TaskPRO.Application.features.Projects.Services
                 }).ToList()
             };
         }
+        public async Task<ProjectMemberResponse> AddProjectMemberAsync(Guid projectId, Guid userId, string role)
+        {
+            var projectMember = new ProjectMember
+            {
+                Id = Guid.NewGuid(),
+                ProjectId = projectId,
+                UserId = userId,
+                Role = Enum.TryParse<ProjectRole>(role, true, out var parsedRole) ? parsedRole : throw new ArgumentException("Invalid role", nameof(role)),
+                CreatedAt = DateTime.UtcNow
+            };      
+            {
+                throw new ArgumentNullException(nameof(projectMember));
+            }
+            
+        }
     }
 }

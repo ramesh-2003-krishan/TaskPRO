@@ -14,5 +14,6 @@ namespace TaskPRO.Application.features.Projects.Interfaces
         Task<IEnumerable<ProjectResponse>> PaginateProjectsAsync(Guid CurrentUserId, int pageNumber, int pageSize);
         Task<ProjectMemberResponse?> GetProjectMemberByIdAsync(Guid projectId, Guid userId);
         Task<ProjectResponse> UpdateProjectAsync(Guid CurrentUserId, Guid projectId, UpdateProjectRequest request);
+        Task<ProjectMemberResponse> AddProjectMemberAsync(Guid projectId, Guid userId, string role);
     }
 }

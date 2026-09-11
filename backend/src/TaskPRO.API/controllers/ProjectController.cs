@@ -130,5 +130,22 @@ namespace TaskPRO.API.controllers
             }
             return Ok(response);
         }
+
+        [HttpPost("{projectId}/members")]
+        public async Task<ActionResult<ProjectMemberResponse>> AddProjectMember(Guid projectId, [FromBody] AddProjectMemberRequest request)
+        {
+            var currentUserId = _currentUserService.UserId;
+            if (currentUserId == null)
+            {
+                return Unauthorized();
+            }
+            if (request.Role != ProjectRole.Admin  && request.Role != ProjectRole.ProjectManager)
+            {
+                return BadRequest("Invalid role. Role must be one of the following: Admin, Owner, Manager, Member.");
+            }
+
+            var response = await _projectService.AddProjectMemberAsync(projectId, request.UserId, request.Role.ToString());
+            return Ok(response);
+        }
     }
 }
