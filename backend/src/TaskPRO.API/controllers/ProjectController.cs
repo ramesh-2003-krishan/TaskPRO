@@ -145,7 +145,18 @@ namespace TaskPRO.API.controllers
             }
 
             var response = await _projectService.AddProjectMemberAsync(projectId, request.UserId, request.Role.ToString());
-            return Ok(response);
+            try
+            {
+                return CreatedAtAction(nameof(GetProjectMemberById), new { projectId = projectId, userId = response.UserId }, response);
+            }
+            catch (TaskPRO.Application.common.Exceptions.ConflictException ex)
+            {
+                return Conflict(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred while adding the project member: {ex.Message}");
+            }
         }
     }
 }
