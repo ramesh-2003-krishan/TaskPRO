@@ -10,5 +10,6 @@ namespace TaskPRO.Application.features.Projects.DTOs
         public string Email { get; set; } = string.Empty;
         public ProjectRole Role { get; set; }
         public DateTime JoinedAt { get; set; }
+        
     }
 }

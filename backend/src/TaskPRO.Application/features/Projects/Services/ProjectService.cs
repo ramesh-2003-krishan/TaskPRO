@@ -223,7 +223,7 @@ namespace TaskPRO.Application.features.Projects.Services
         }
         public async Task<ProjectMemberResponse> AddProjectMemberAsync(Guid projectId, Guid userId, string role)
         {
-            
+
             var projectMember = new ProjectMember
             {
                 Id = Guid.NewGuid(),
@@ -237,5 +237,24 @@ namespace TaskPRO.Application.features.Projects.Services
             }
             
         }
+        public async Task<ProjectMemberResponse> UpdateProjectMemberRoleAsync(Guid projectId, Guid userId, UpdateProjectRoleRequest request)
+        {
+            var projectMember = await _projectRepository.GetProjectMemberByIdAsync(projectId, userId);
+
+            if (projectMember == null)
+            {
+                throw new Exception("Project member not found");
+            }
+
+            await _projectRepository.UpdateProjectMemberRoleAsync(projectMember, request);
+
+            return new ProjectMemberResponse
+            {
+                UserId = projectMember.UserId,
+                Role = projectMember.Role,
+                JoinedAt = projectMember.CreatedAt
+            };
+        }
+       
     }
 }
