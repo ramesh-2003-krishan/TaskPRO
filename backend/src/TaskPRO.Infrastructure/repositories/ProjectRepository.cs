@@ -117,5 +117,10 @@ namespace TaskPRO.Infrastructure.repositories
                 .Where(pm => pm.ProjectId == projectId && pm.UserId == userId)
                 .FirstOrDefaultAsync();
         }
+        public async Task RemoveProjectMemberAsync(ProjectMember projectMember)
+        {
+            _dbContext.ProjectMembers.Remove(projectMember);
+            await _dbContext.SaveChangesAsync();
+        }
     }
 }

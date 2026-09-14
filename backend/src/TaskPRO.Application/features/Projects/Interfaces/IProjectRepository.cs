@@ -15,6 +15,6 @@ namespace TaskPRO.Application.features.Projects.Interfaces
         Task<ProjectMember?> GetProjectMemberByIdAsync(Guid projectId, Guid userId);
         Task AddProjectMemberAsync(ProjectMember projectMember);
         Task UpdateProjectMemberRoleAsync(ProjectMember projectMember, UpdateProjectRoleRequest request);
-       
+        Task RemoveProjectMemberAsync(ProjectMember projectMember);
     }
 }

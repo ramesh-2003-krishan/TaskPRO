@@ -159,6 +159,36 @@ namespace TaskPRO.API.controllers
             }
         }
 
-        
+        [HttpPut("{projectId}/members/{userId}")]
+        public async Task<ActionResult<ProjectMemberResponse>> UpdateProjectMemberRole(Guid projectId, Guid userId, [FromBody] UpdateProjectRoleRequest request)
+        {
+            var currentUserId = _currentUserService.UserId;
+            if (currentUserId == null)
+            {
+                return Unauthorized();
+            }
+
+            var response = await _projectService.UpdateProjectMemberRoleAsync(projectId, userId, request);
+            if (response == null)
+            {
+                return NotFound();
+            }
+            return Ok(response);
+        }
+
+        [HttpDelete("{projectId}/members/{userId}")]
+        public async Task<ActionResult> RemoveProjectMember(Guid projectId, Guid userId)
+        {
+            var currentUserId = _currentUserService.UserId;
+            if (currentUserId == null)
+            {
+                return Unauthorized();
+            }
+
+          
+
+            await _projectService.RemoveProjectMemberAsync(projectId, userId);
+            return NoContent();
+        }
     }
 }
