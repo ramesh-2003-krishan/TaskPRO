@@ -122,5 +122,11 @@ namespace TaskPRO.Infrastructure.repositories
             _dbContext.ProjectMembers.Remove(projectMember);
             await _dbContext.SaveChangesAsync();
         }
+        public async Task ArchiveProjectAsync(Project project)
+        {
+            project.Status = ProjectStatus.Archived;
+            _dbContext.Projects.Update(project);
+            await _dbContext.SaveChangesAsync();
+        }
     }
 }

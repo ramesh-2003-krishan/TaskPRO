@@ -255,6 +255,64 @@ namespace TaskPRO.Application.features.Projects.Services
                 JoinedAt = projectMember.CreatedAt
             };
         }
+        public async Task<ProjectResponse> ArchiveProjectAsync(Guid CurrentUserId, Guid projectId)
+        {
+            var project = await _projectRepository.GetProjectByIdAsync(projectId);
+
+            if (project == null)
+            {
+                throw new Exception("Project not found");
+            }
+
+            
+            var isMember = project.ProjectMembers.Any(pm => pm.UserId == CurrentUserId);
+            if (!isMember)
+            {
+                throw new Exception("You are not a member of this project");
+            }
+
+            
+            project.Status = ProjectStatus.Archived;
+            project.UpdatedAt = DateTime.UtcNow;
+
+            await _projectRepository.ArchiveProjectAsync(project);
+            await _projectRepository.SaveChangesAsync();
+
+            return new ProjectResponse
+            {
+                Id = project.Id,
+                ProjectName = project.Name,
+                Description = project.Description,
+                Status = project.Status,
+                OwnerId = project.UserId,
+                CreatedAt = project.CreatedAt,
+                Members = project.ProjectMembers.Select(pm => new ProjectMemberResponse
+                {
+                    UserId = pm.UserId,
+                    Role = pm.Role,
+                    JoinedAt = pm.CreatedAt
+                }).ToList()
+            };
+        }
+
+        public async Task<ProjectMemberResponse> RemoveProjectMemberAsync(Guid projectId, Guid userId)
+        {
+            var projectMember = await _projectRepository.GetProjectMemberByIdAsync(projectId, userId);
+
+            if (projectMember == null)
+            {
+                throw new Exception("Project member not found");
+            }
+
+            await _projectRepository.RemoveProjectMemberAsync(projectMember);
+
+            return new ProjectMemberResponse
+            {
+                UserId = projectMember.UserId,
+                Role = projectMember.Role,
+                JoinedAt = projectMember.CreatedAt
+            };
+        }
        
     }
 }

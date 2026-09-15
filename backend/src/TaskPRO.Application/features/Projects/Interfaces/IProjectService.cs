@@ -17,6 +17,7 @@ namespace TaskPRO.Application.features.Projects.Interfaces
         Task<ProjectMemberResponse> AddProjectMemberAsync(Guid projectId, Guid userId, string role);
         Task<ProjectMemberResponse> UpdateProjectMemberRoleAsync(Guid projectId, Guid userId, UpdateProjectRoleRequest request);
         Task<ProjectMemberResponse> RemoveProjectMemberAsync(Guid projectId, Guid userId);
+        Task<ProjectResponse> ArchiveProjectAsync(Guid CurrentUserId, Guid projectId);
 
     }
 }

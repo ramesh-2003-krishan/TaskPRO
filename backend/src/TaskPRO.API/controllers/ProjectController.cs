@@ -190,5 +190,18 @@ namespace TaskPRO.API.controllers
             await _projectService.RemoveProjectMemberAsync(projectId, userId);
             return NoContent();
         }
+
+        [HttpPatch("{projectId}/archive")]
+        public async Task<ActionResult<ProjectResponse>> ArchiveProject(Guid projectId)
+        {
+            var currentUserId = _currentUserService.UserId;
+            if (currentUserId == null)
+            {
+                return Unauthorized();
+            }
+
+            var response = await _projectService.ArchiveProjectAsync(currentUserId.Value, projectId);
+            return Ok(response);
+        }
     }
 }
