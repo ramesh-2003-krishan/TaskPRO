@@ -313,6 +313,42 @@ namespace TaskPRO.Application.features.Projects.Services
                 JoinedAt = projectMember.CreatedAt
             };
         }
+        public async Task<ProjectResponse> DeleteProjectAsync(Guid CurrentUserId, Guid projectId)
+        {
+            var project = await _projectRepository.GetProjectByIdAsync(projectId);
+
+            if (project == null)
+            {
+                throw new Exception("Project not found");
+            }
+
+            
+            var isMember = project.ProjectMembers.Any(pm => pm.UserId == CurrentUserId);
+            if (!isMember)
+            {
+                throw new Exception("You are not a member of this project");
+            }
+
+            
+            await _projectRepository.DeleteProjectAsync(project);
+            await _projectRepository.SaveChangesAsync();
+
+            return new ProjectResponse
+            {
+                Id = project.Id,
+                ProjectName = project.Name,
+                Description = project.Description,
+                Status = project.Status,
+                OwnerId = project.UserId,
+                CreatedAt = project.CreatedAt,
+                Members = project.ProjectMembers.Select(pm => new ProjectMemberResponse
+                {
+                    UserId = pm.UserId,
+                    Role = pm.Role,
+                    JoinedAt = pm.CreatedAt
+                }).ToList()
+            };
+        }
        
     }
 }

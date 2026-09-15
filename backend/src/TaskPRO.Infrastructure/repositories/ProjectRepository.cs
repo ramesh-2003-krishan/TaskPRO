@@ -128,5 +128,6 @@ namespace TaskPRO.Infrastructure.repositories
             _dbContext.Projects.Update(project);
             await _dbContext.SaveChangesAsync();
         }
+       
     }
 }

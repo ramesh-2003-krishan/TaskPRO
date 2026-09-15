@@ -203,5 +203,18 @@ namespace TaskPRO.API.controllers
             var response = await _projectService.ArchiveProjectAsync(currentUserId.Value, projectId);
             return Ok(response);
         }
+
+        [HttpDelete("{projectId}")]
+        public async Task<ActionResult<ProjectResponse>> DeleteProject(Guid projectId)
+        {
+            var currentUserId = _currentUserService.UserId;
+            if (currentUserId == null)
+            {
+                return Unauthorized();
+            }
+
+            var response = await _projectService.DeleteProjectAsync(currentUserId.Value, projectId);
+            return Ok(response);
+        }
     }
 }

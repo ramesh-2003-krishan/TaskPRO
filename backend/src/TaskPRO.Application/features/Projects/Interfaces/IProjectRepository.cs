@@ -17,5 +17,6 @@ namespace TaskPRO.Application.features.Projects.Interfaces
         Task UpdateProjectMemberRoleAsync(ProjectMember projectMember, UpdateProjectRoleRequest request);
         Task RemoveProjectMemberAsync(ProjectMember projectMember);
         Task ArchiveProjectAsync(Project project);
+        Task DeleteProjectAsync(Project project);
     }
 }
