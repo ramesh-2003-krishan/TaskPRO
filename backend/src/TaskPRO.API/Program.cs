@@ -6,7 +6,6 @@ using TaskPRO.Application.features.Projects.Interfaces;
 using TaskPRO.Application.common.interfaces;
 using TaskPRO.Infrastructure.services;
 
-
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
@@ -14,11 +13,16 @@ builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddValidatorsFromAssemblyContaining<TaskPRO.Application.features.Users.Validators.UpdateProfileRequestValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<TaskPRO.Application.features.Users.Validators.ChangePasswordRequestValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<TaskPRO.Application.features.Users.Validators.UpdateUserRoleRequestValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<TaskPRO.Application.features.Projects.Validators.CreateProjectValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<TaskPRO.Application.features.Projects.Validators.AddProjectMemberValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<TaskPRO.Application.features.Projects.Validators.UpdateProjectMemberRoleValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<TaskPRO.Application.features.Projects.Validators.UpdateProjectValidator>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddScoped<IProjectService, ProjectService>();
 builder.Services.AddScoped<IProjectAuthorizationService, ProjectAuthorizationService>();
+
 
 var app = builder.Build();
 
