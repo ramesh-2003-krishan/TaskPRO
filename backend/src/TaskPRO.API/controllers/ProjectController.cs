@@ -160,8 +160,17 @@ namespace TaskPRO.API.controllers
         }
 
         [HttpPut("{projectId}/members/{userId}")]
-        public async Task<ActionResult<ProjectMemberResponse>> UpdateProjectMemberRole(Guid projectId, Guid userId, [FromBody] UpdateProjectRoleRequest request)
+        public async Task<ActionResult<ProjectMemberResponse>> UpdateProjectMemberRole(Guid projectId, Guid userId, Guid targetUserId, [FromBody] UpdateProjectRoleRequest request)
         {
+            var project = await _projectService.GetProjectByIdAsync(projectId);
+            if (project == null)
+            {
+                return NotFound();
+            }
+            if(project.UserId == targetUserId)
+            {
+                return BadRequest("You cannot change your own role in the project.");
+            }
             var currentUserId = _currentUserService.UserId;
             if (currentUserId == null)
             {
@@ -177,16 +186,22 @@ namespace TaskPRO.API.controllers
         }
 
         [HttpDelete("{projectId}/members/{userId}")]
-        public async Task<ActionResult> RemoveProjectMember(Guid projectId, Guid userId)
+        public async Task<ActionResult> RemoveProjectMember(Guid projectId, Guid userId, Guid targetUserId)
         {
+            var project = await _projectService.GetProjectByIdAsync(projectId);
+            if (project == null)
+            {
+                return NotFound();
+            }
+            if(project.UserId == targetUserId)
+            {
+                return BadRequest("You cannot remove yourself from the project.");
+            }
             var currentUserId = _currentUserService.UserId;
             if (currentUserId == null)
             {
                 return Unauthorized();
             }
-
-          
-
             await _projectService.RemoveProjectMemberAsync(projectId, userId);
             return NoContent();
         }

@@ -18,6 +18,10 @@ namespace TaskPRO.Application.features.Projects.Services
         }
         public async Task<ProjectResponse> CreateProjectAsync(Guid CurrentUserId, CreateProjectRequest request)
         {
+            if(CurrentUserId == Guid.Empty)
+            {
+                throw new ArgumentException("Current user ID cannot be empty", nameof(CurrentUserId));
+            }
             
             var newProject = new Project
             {
@@ -25,7 +29,8 @@ namespace TaskPRO.Application.features.Projects.Services
                 Name = request.ProjectName,
                 Description = request.Description,
                 CreatedAt = DateTime.UtcNow,
-                Status = ProjectStatus.Active
+                Status = ProjectStatus.Active,
+                UserId = CurrentUserId
             };
 
             var ownerMember = new ProjectMember

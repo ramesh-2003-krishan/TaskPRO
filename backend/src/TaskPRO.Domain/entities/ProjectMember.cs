@@ -14,5 +14,6 @@ namespace TaskPRO.Domain.entities
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public User? User { get; set; }
         public Project? Project { get; set; }
+        
     }
 }
