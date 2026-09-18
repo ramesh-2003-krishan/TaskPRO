@@ -228,6 +228,11 @@ namespace TaskPRO.Application.features.Projects.Services
         }
         public async Task<ProjectMemberResponse> AddProjectMemberAsync(Guid projectId, Guid userId, string role)
         {
+            var projectMemberExists = await _projectRepository.GetProjectMemberByIdAsync(projectId, userId);
+            if(projectMemberExists != null)
+            {
+                throw new Exception("User is already a member of this project");
+            }
 
             var projectMember = new ProjectMember
             {
