@@ -6,15 +6,19 @@ using TaskPRO.Application.features.Projects.DTOs;
 using TaskPRO.Application.features.Projects.Interfaces;
 using TaskPRO.Domain.entities;
 using TaskPRO.Domain.enums;
+using TaskPRO.Application.common.interfaces;
+
 
 namespace TaskPRO.Application.features.Projects.Services
 {
     public class ProjectService : IProjectService
     {
         private readonly IProjectRepository _projectRepository;
-        public ProjectService(IProjectRepository projectRepository)
+        private readonly IProjectAuthorizationService _projectAuthorizationService;
+        public ProjectService(IProjectRepository projectRepository, IProjectAuthorizationService projectAuthorizationService)
         {
             _projectRepository = projectRepository;
+            _projectAuthorizationService = projectAuthorizationService;
         }
         public async Task<ProjectResponse> CreateProjectAsync(Guid CurrentUserId, CreateProjectRequest request)
         {
@@ -70,13 +74,19 @@ namespace TaskPRO.Application.features.Projects.Services
         }
 
 
-        public async Task<ProjectDetailResponse> GetProjectByIdAsync(Guid projectId)
+        public async Task<ProjectDetailResponse> GetProjectByIdAsync(Guid projectId, Guid CurrentUserId, bool isAdmin)
         {
             var project = await _projectRepository.GetProjectByIdAsync(projectId);
 
             if (project == null)
             {
                 throw new Exception("Project not found");
+            }
+
+            var CanAccess = isAdmin || await _projectAuthorizationService.GetProjectMemberAsync(projectId, CurrentUserId) != null;
+            if (!CanAccess)
+            {
+                throw new Exception("You do not have access to this project");
             }
 
             return new ProjectDetailResponse

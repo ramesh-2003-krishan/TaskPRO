@@ -7,7 +7,7 @@ namespace TaskPRO.Application.features.Projects.Interfaces
     public interface IProjectService
     {
         Task<ProjectResponse> CreateProjectAsync (Guid CurrentUserId,CreateProjectRequest request);
-        Task<ProjectDetailResponse> GetProjectByIdAsync(Guid projectId);
+        Task<ProjectDetailResponse> GetProjectByIdAsync(Guid projectId, Guid CurrentUserId, bool isAdmin);
         Task<MyProjectDetailResponse> GetMyProjectDetailByAsync(Guid projectId, Guid userId);
         Task<IEnumerable<ProjectResponse>> SearchProjectsAsync(Guid CurrentUserId, string? searchTerm, int pageNumber, int pageSize);
         Task<IEnumerable<ProjectResponse>> FilterProjectsAsync(Guid CurrentUserId, string? filterBy, int pageNumber, int pageSize);
