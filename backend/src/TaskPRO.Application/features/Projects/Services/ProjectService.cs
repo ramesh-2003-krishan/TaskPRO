@@ -212,6 +212,12 @@ namespace TaskPRO.Application.features.Projects.Services
                 throw new Exception("You are not a member of this project");
             }
 
+            var isValidRole = await _projectAuthorizationService.GetUserRoleInProjectAsync(projectId, CurrentUserId);
+            if(isValidRole != ProjectprojectRole.Owner && isValidRole != ProjectprojectRole.Manager)
+            {
+                throw new Exception("You do not have permission to update this project");
+            }
+
             
             project.Name = request.ProjectName;
             project.Description = request.Description;
@@ -243,6 +249,12 @@ namespace TaskPRO.Application.features.Projects.Services
             {
                 throw new Exception("User is already a member of this project");
             }
+            
+            var isValidRole = await _projectAuthorizationService.GetUserRoleInProjectAsync(projectId, userId);
+            if(isValidRole != ProjectprojectRole.Owner && isValidRole != ProjectprojectRole.Manager)
+            {
+                throw new Exception("You do not have permission to update this project");
+            }
 
             var projectMember = new ProjectMember
             {
@@ -252,9 +264,16 @@ namespace TaskPRO.Application.features.Projects.Services
                 Role = Enum.TryParse<ProjectRole>(role, true, out var parsedRole) ? parsedRole : throw new ArgumentException("Invalid role", nameof(role)),
                 CreatedAt = DateTime.UtcNow
             };      
+            if (projectMember == null)
             {
                 throw new ArgumentNullException(nameof(projectMember));
             }
+            return new ProjectMemberResponse
+            {
+                UserId = projectMember.UserId,
+                Role = projectMember.Role,
+                JoinedAt = projectMember.CreatedAt
+            };
             
         }
         public async Task<ProjectMemberResponse> UpdateProjectMemberRoleAsync(Guid projectId, Guid userId, UpdateProjectRoleRequest request)
@@ -264,6 +283,12 @@ namespace TaskPRO.Application.features.Projects.Services
             if (projectMember == null)
             {
                 throw new Exception("Project member not found");
+            }
+
+            var isValidRole = await _projectAuthorizationService.GetUserRoleInProjectAsync(projectId, userId);
+            if(isValidRole != ProjectprojectRole.Owner && isValidRole != ProjectprojectRole.Manager)
+            {
+                throw new Exception("You do not have permission to update this project member's role");
             }
 
             await _projectRepository.UpdateProjectMemberRoleAsync(projectMember, request);
@@ -322,6 +347,12 @@ namespace TaskPRO.Application.features.Projects.Services
             if (projectMember == null)
             {
                 throw new Exception("Project member not found");
+            }
+
+            var isValidRole = await _projectAuthorizationService.GetUserRoleInProjectAsync(projectId, userId);
+            if(isValidRole != ProjectprojectRole.Owner && isValidRole != ProjectprojectRole.Manager)
+            {
+                throw new Exception("You do not have permission to remove this project member");
             }
 
             await _projectRepository.RemoveProjectMemberAsync(projectMember);
