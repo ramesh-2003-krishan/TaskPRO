@@ -40,7 +40,14 @@ namespace TaskPRO.API.controllers
         [HttpGet("{projectId}")]
         public async Task<ActionResult<ProjectDetailResponse>> GetProjectById(Guid projectId)
         {
-            var response = await _projectService.GetProjectByIdAsync(projectId);
+            var currentUserId = _currentUserService.UserId;
+            if (currentUserId == null)
+            {
+                return Unauthorized();
+            }
+
+            var isAdmin = _currentUserService.UserRole?.Equals("Admin", StringComparison.OrdinalIgnoreCase) == true;
+            var response = await _projectService.GetProjectByIdAsync(projectId, currentUserId.Value, isAdmin);
             if (response == null)
             {
                 return NotFound();
@@ -144,7 +151,7 @@ namespace TaskPRO.API.controllers
                 return BadRequest("Invalid role. Role must be one of the following: Admin, Owner, Manager, Member.");
             }
 
-            var response = await _projectService.AddProjectMemberAsync(projectId, request.UserId, request.Role.ToString());
+            var response = await _projectService.AddProjectMemberAsync(projectId, request.UserId, request.Role.ToString(), currentUserId.Value);
             try
             {
                 return CreatedAtAction(nameof(GetProjectMemberById), new { projectId = projectId, userId = response.UserId }, response);
@@ -162,16 +169,22 @@ namespace TaskPRO.API.controllers
         [HttpPut("{projectId}/members/{userId}")]
         public async Task<ActionResult<ProjectMemberResponse>> UpdateProjectMemberRole(Guid projectId, Guid userId, Guid targetUserId, [FromBody] UpdateProjectRoleRequest request)
         {
-            var project = await _projectService.GetProjectByIdAsync(projectId);
+            var currentUserId = _currentUserService.UserId;
+            if (currentUserId == null)
+            {
+                return Unauthorized();
+            }
+
+            var isAdmin = _currentUserService.UserRole?.Equals("Admin", StringComparison.OrdinalIgnoreCase) == true;
+            var project = await _projectService.GetProjectByIdAsync(projectId, currentUserId.Value, isAdmin);
             if (project == null)
             {
                 return NotFound();
             }
-            if(project.UserId == targetUserId)
+            if(project.Id == targetUserId)
             {
                 return BadRequest("You cannot change your own role in the project.");
             }
-            var currentUserId = _currentUserService.UserId;
             if (currentUserId == null)
             {
                 return Unauthorized();
@@ -188,19 +201,21 @@ namespace TaskPRO.API.controllers
         [HttpDelete("{projectId}/members/{userId}")]
         public async Task<ActionResult> RemoveProjectMember(Guid projectId, Guid userId, Guid targetUserId)
         {
-            var project = await _projectService.GetProjectByIdAsync(projectId);
-            if (project == null)
-            {
-                return NotFound();
-            }
-            if(project.UserId == targetUserId)
-            {
-                return BadRequest("You cannot remove yourself from the project.");
-            }
             var currentUserId = _currentUserService.UserId;
             if (currentUserId == null)
             {
                 return Unauthorized();
+            }
+
+            var isAdmin = _currentUserService.UserRole?.Equals("Admin", StringComparison.OrdinalIgnoreCase) == true;
+            var project = await _projectService.GetProjectByIdAsync(projectId, currentUserId.Value, isAdmin);
+            if (project == null)
+            {
+                return NotFound();
+            }
+            if(project.Id == targetUserId)
+            {
+                return BadRequest("You cannot remove yourself from the project.");
             }
             await _projectService.RemoveProjectMemberAsync(projectId, userId);
             return NoContent();

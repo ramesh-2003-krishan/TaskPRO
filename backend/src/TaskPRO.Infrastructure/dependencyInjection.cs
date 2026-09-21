@@ -27,6 +27,7 @@ public static class DependencyInjection
         
         services.AddScoped<ICurrentUserService, CurrentUserService>();
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<TaskPRO.Application.features.Projects.Interfaces.IProjectRepository, TaskPRO.Infrastructure.repositories.ProjectRepository>();
 
         return services;
     }

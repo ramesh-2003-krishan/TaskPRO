@@ -5,6 +5,7 @@ using System;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
+using TaskPRO.Domain.entities;
 
 
 namespace TaskPRO.Infrastructure.services
@@ -53,6 +54,19 @@ namespace TaskPRO.Infrastructure.services
 
             var role = await GetUserRoleInProjectAsync(projectId, userId);
             return role == ProjectprojectRole.Owner;
+        }
+        public async Task<ProjectMember?> GetProjectMemberAsync(Guid projectId, Guid userId)
+        {
+            var project = await _dbContext.Projects
+                .Include(p => p.ProjectMembers)
+                .FirstOrDefaultAsync(p => p.Id == projectId);
+
+            if (project == null) return null;
+
+            var Member = project.ProjectMembers
+                .FirstOrDefault(pm => pm.UserId == userId);
+
+            return Member;
         }
 
        
