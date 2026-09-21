@@ -242,7 +242,7 @@ namespace TaskPRO.Application.features.Projects.Services
                 }).ToList()
             };
         }
-        public async Task<ProjectMemberResponse> AddProjectMemberAsync(Guid projectId, Guid userId, string role)
+        public async Task<ProjectMemberResponse> AddProjectMemberAsync(Guid projectId, Guid userId, string role, Guid currentUserId)
         {
             var projectMemberExists = await _projectRepository.GetProjectMemberByIdAsync(projectId, userId);
             if(projectMemberExists != null)
@@ -250,12 +250,23 @@ namespace TaskPRO.Application.features.Projects.Services
                 throw new Exception("User is already a member of this project");
             }
             
-            var isValidRole = await _projectAuthorizationService.GetUserRoleInProjectAsync(projectId, userId);
+            var isValidRole = await _projectAuthorizationService.GetUserRoleInProjectAsync(projectId, currentUserId);
             if(isValidRole != ProjectprojectRole.Owner && isValidRole != ProjectprojectRole.Manager)
             {
                 throw new Exception("You do not have permission to update this project");
             }
 
+            var Project = await _projectRepository.GetProjectByIdAsync(projectId);
+            if(Project == null)
+            {
+                throw new Exception("there is no project");
+            }
+            if (Project.Status == ProjectStatus.Archived)
+            {
+                throw new Exception("this is a archived project then can not be add members");
+            }
+
+           
             var projectMember = new ProjectMember
             {
                 Id = Guid.NewGuid(),
