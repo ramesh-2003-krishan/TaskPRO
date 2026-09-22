@@ -106,6 +106,12 @@ namespace TaskPRO.API.controllers.UserController
             return Ok(updatedUser);
         }
 
+        [HttpPost]
+        public async Task<ActionResult<UserLoginRequest>> Login()
+        {
+            return BadRequest("Login is not supported by this endpoint.");
+        }
+
         [HttpGet("profile")]
         public async Task<ActionResult<UserResponse>> GetProfile()
         {

@@ -9,15 +9,18 @@ using Microsoft.EntityFrameworkCore;
 using TaskPRO.Application.Features.Users.Interfaces;
 
 
+
 namespace TaskPRO.Application.features.Users.Services
 {
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
+        private readonly IPasswordHasher _passwordHasher;
 
-        public UserService(IUserRepository userRepository)
+        public UserService(IUserRepository userRepository, IPasswordHasher passwordHasher)
         {
             _userRepository = userRepository;
+            _passwordHasher = passwordHasher;
         }
 
         public async Task<UserResponse> GetProfileAsync(Guid userId)
@@ -147,6 +150,27 @@ namespace TaskPRO.Application.features.Users.Services
 
             return true;
         }
+        public async Task<UserLoginRequest> userLoginRequestAsync(string CurrentPassword,string UserEmail)
+        {
+            var Email = await _userRepository.GetUserEmailByIdAsync(UserEmail);
+            if(Email == null)
+            {
+                throw new Exception("user is already Exist");
+            }
+            var isPasswordValid = await _passwordHasher.GetUserPassword(CurrentPassword);
+            if(!isPasswordValid)
+            {
+                throw new Exception ("password wrong");
+            }
+
+            return new UserLoginRequest
+            {
+              UserEmail = Email.UserEmail   
+            };
+            
+
+        }
+        
 
         public async Task<UserResponse> GetUserByIdAsync(Guid userId)
         {

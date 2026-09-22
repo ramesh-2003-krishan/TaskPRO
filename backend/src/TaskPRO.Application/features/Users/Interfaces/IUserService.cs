@@ -14,6 +14,7 @@ namespace TaskPRO.Application.features.Users.Interfaces
         Task<bool> DeleteUserAsync(Guid userId);
         Task<bool> UpdateUserStatusAsync(Guid userId,  bool isActive);
         Task<bool> UpdateUserRoleAsync(Guid userId, string role);
+        Task<UserLoginRequest> userLoginRequestAsync(string CurrentPassword, string UserEmail);
         
         
     }
