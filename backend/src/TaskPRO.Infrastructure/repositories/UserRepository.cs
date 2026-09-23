@@ -28,6 +28,18 @@ namespace TaskPRO.Infrastructure.repositories
             return user;
         }
 
+        public async Task<User> GetUserEmailByIdAsync(string userEmail)
+        {
+            return await _dbContext.Users
+                .FirstOrDefaultAsync(u => u.UserEmail == userEmail);
+        }
+
+        public async Task<User> GetUserPasswordAsync(string currentPassword)
+        {
+            return await _dbContext.Users
+                .FirstOrDefaultAsync(u => u.PasswordHashedValue == currentPassword);
+        }
+
         public async Task<IEnumerable<User>> GetAllUsersAsync()
         {
             return await _dbContext.Users.ToListAsync();
@@ -52,6 +64,22 @@ namespace TaskPRO.Infrastructure.repositories
             {
                 _dbContext.Users.Remove(user);
                 await _dbContext.SaveChangesAsync();
+            }
+        }
+
+        public async Task UserLoginRequestAsync(string currentPassword, string userEmail)
+        {
+            var user = await _dbContext.Users
+                .FirstOrDefaultAsync(u => u.UserEmail == userEmail);
+
+            if (user == null)
+            {
+                throw new InvalidOperationException("User does not exist.");
+            }
+
+            if (user.PasswordHashedValue != currentPassword)
+            {
+                throw new InvalidOperationException("Password is incorrect.");
             }
         }
     }

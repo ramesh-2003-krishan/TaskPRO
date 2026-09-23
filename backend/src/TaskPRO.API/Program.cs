@@ -5,8 +5,15 @@ using TaskPRO.Application.features.Projects.Services;
 using TaskPRO.Application.features.Projects.Interfaces;
 using TaskPRO.Application.common.interfaces;
 using TaskPRO.Infrastructure.services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Microsoft.CodeAnalysis.Options;
+using Microsoft.IdentityModel.Tokens.Experimental;
 
 var builder = WebApplication.CreateBuilder(args);
+var jwtKey = builder.Configuration["Jwt:SecretKey"]
+    ?? throw new InvalidOperationException("JWT configuration is missing: Jwt:SecretKey");
 
 builder.Services.AddControllers();
 builder.Services.AddFluentValidationAutoValidation();
@@ -22,6 +29,26 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddScoped<IProjectService, ProjectService>();
 builder.Services.AddScoped<IProjectAuthorizationService, ProjectAuthorizationService>();
+
+builder.Services.AddAuthentication(option =>
+{
+    option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    option.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(Option =>
+{
+    Option.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+        ValidAudience = builder.Configuration["Jwt:Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(
+              Encoding.UTF8.GetBytes(jwtKey))
+    };
+});
 
 
 var app = builder.Build();

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using TaskPRO.Application.interfaces;
 using TaskPRO.Application.features.Users.DTOs;
 using TaskPRO.Application.features.Users.Interfaces;
+using Microsoft.AspNetCore.Identity;
 
 namespace TaskPRO.API.controllers.UserController
 {
@@ -107,8 +108,11 @@ namespace TaskPRO.API.controllers.UserController
         }
 
         [HttpPost]
-        public async Task<ActionResult<UserLoginRequest>> Login()
+        public async Task<ActionResult<UserLoginRequest>> Login([FromBody] UserLoginRequest loginRequest)
         {
+            var CurrentPassword = loginRequest.CurrentPassword;
+            var UserEmail =  loginRequest.UserEmail;
+
             return BadRequest("Login is not supported by this endpoint.");
         }
 

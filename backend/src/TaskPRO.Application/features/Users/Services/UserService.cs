@@ -15,9 +15,9 @@ namespace TaskPRO.Application.features.Users.Services
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
-        private readonly IPasswordHasher _passwordHasher;
+        private readonly TaskPRO.Application.interfaces.IPasswordHasher _passwordHasher;
 
-        public UserService(IUserRepository userRepository, IPasswordHasher passwordHasher)
+        public UserService(IUserRepository userRepository, TaskPRO.Application.interfaces.IPasswordHasher passwordHasher)
         {
             _userRepository = userRepository;
             _passwordHasher = passwordHasher;
@@ -152,23 +152,22 @@ namespace TaskPRO.Application.features.Users.Services
         }
         public async Task<UserLoginRequest> userLoginRequestAsync(string CurrentPassword,string UserEmail)
         {
-            var Email = await _userRepository.GetUserEmailByIdAsync(UserEmail);
-            if(Email == null)
+            var user = await _userRepository.GetUserEmailByIdAsync(UserEmail);
+            if (user == null)
             {
-                throw new Exception("user is already Exist");
+                throw new Exception("user does not exist");
             }
-            var isPasswordValid = await _passwordHasher.GetUserPassword(CurrentPassword);
-            if(!isPasswordValid)
+
+            var isPasswordValid = _passwordHasher.VerifyPassword(CurrentPassword, user.PasswordHashedValue);
+            if (!isPasswordValid)
             {
-                throw new Exception ("password wrong");
+                throw new Exception("password wrong");
             }
 
             return new UserLoginRequest
             {
-              UserEmail = Email.UserEmail   
+                UserEmail = user.UserEmail
             };
-            
-
         }
         
 
