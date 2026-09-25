@@ -4,6 +4,8 @@ using Microsoft.Extensions.DependencyInjection;
 using TaskPRO.Infrastructure.Data;
 using TaskPRO.Infrastructure.authentication;
 using TaskPRO.Application.interfaces;
+using TaskPRO.Application.features.Task.Interfaces;
+using TaskPRO.Application.features.Task.Services;
 using TaskPRO.Infrastructure.authentication.CurrentUserService;
 using TaskPRO.Application.Features.Users.Interfaces;
 using TaskPRO.Infrastructure.repositories;
@@ -27,6 +29,8 @@ public static class DependencyInjection
         
         services.AddScoped<ICurrentUserService, CurrentUserService>();
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<ITaskRepository, TaskRepository>();
+        services.AddScoped<ITaskService, TaskServices>();
         services.AddScoped<TaskPRO.Application.features.Projects.Interfaces.IProjectRepository, TaskPRO.Infrastructure.repositories.ProjectRepository>();
 
         return services;

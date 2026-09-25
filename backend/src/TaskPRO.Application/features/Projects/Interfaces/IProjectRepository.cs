@@ -6,17 +6,17 @@ namespace TaskPRO.Application.features.Projects.Interfaces
     public interface IProjectRepository
     {
         Task<Project?> GetProjectByIdAsync(Guid id);
-        Task AddAsync(Project project);
-        Task SaveChangesAsync();
+        System.Threading.Tasks.Task AddAsync(Project project);
+        System.Threading.Tasks.Task SaveChangesAsync();
         Task<Project?> GetMyProjectDetailByAsync(Guid projectId, Guid userId);
         Task<IEnumerable<Project>> SearchProjectsAsync(Guid CurrentUserId, string? searchTerm, int pageNumber, int pageSize);
         Task<IEnumerable<Project>> FilterProjectsAsync(Guid CurrentUserId, string? filterBy, int pageNumber, int pageSize);
         Task<IEnumerable<Project>> PaginateProjectsAsync(Guid CurrentUserId, int pageNumber, int pageSize);
         Task<ProjectMember?> GetProjectMemberByIdAsync(Guid projectId, Guid userId);
-        Task AddProjectMemberAsync(ProjectMember projectMember);
-        Task UpdateProjectMemberRoleAsync(ProjectMember projectMember, UpdateProjectRoleRequest request);
-        Task RemoveProjectMemberAsync(ProjectMember projectMember);
-        Task ArchiveProjectAsync(Project project);
-        Task DeleteProjectAsync(Project project);
+        System.Threading.Tasks.Task AddProjectMemberAsync(ProjectMember projectMember);
+        System.Threading.Tasks.Task UpdateProjectMemberRoleAsync(ProjectMember projectMember, UpdateProjectRoleRequest request);
+        System.Threading.Tasks.Task RemoveProjectMemberAsync(ProjectMember projectMember);
+        System.Threading.Tasks.Task ArchiveProjectAsync(Project project);
+        System.Threading.Tasks.Task DeleteProjectAsync(Project project);
     }
 }

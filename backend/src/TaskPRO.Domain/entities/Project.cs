@@ -17,9 +17,7 @@ namespace TaskPRO.Domain.entities
         public ProjectStatus Status { get; set; } = ProjectStatus.planning;
        
         public virtual ICollection<ProjectMember> ProjectMembers { get; set; } = new List<ProjectMember>();
-        public virtual ICollection<Project> OwnedProjects { get; set; } = new List<Project>();
-
-        public virtual ICollection<Task> Tasks { get; set; } = new List<Task>();
+        public virtual ICollection<TaskItem> Tasks { get; set; } = new List<TaskItem>();
         
     }
 }

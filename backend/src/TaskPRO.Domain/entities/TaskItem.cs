@@ -16,7 +16,7 @@ namespace TaskPRO.Domain.entities
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
         public DateOnly DueDate { get; set; } = DateOnly.FromDateTime(DateTime.UtcNow.AddDays(7));
         public Guid? AssignedToUserId { get; set; }
-        public int ProjectId { get; set; }
+        public Guid? ProjectId { get; set; }
         public Guid CreatedByUserId { get; set; }
 
         public User? user { get; set; }

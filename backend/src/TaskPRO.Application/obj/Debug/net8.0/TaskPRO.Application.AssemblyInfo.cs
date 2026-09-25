@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TaskPRO.Application")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1329e5c87e275c6f4f50d4b73fd118e627f97d2a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a10e65f5733589935eb2a9ecbf1c922eb69eb4d1")]
 [assembly: System.Reflection.AssemblyProductAttribute("TaskPRO.Application")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TaskPRO.Application")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

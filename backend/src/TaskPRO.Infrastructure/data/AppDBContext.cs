@@ -65,6 +65,16 @@ public class AppDBContext : DbContext, IAppDbContext
             .HasForeignKey(t => t.CreatedByUserId)
             .OnDelete(DeleteBehavior.Restrict);
 
+        modelBuilder.Entity<TaskItem>()
+            .Property(task => task.ProjectId)
+            .HasColumnName("projectId");
+
+        modelBuilder.Entity<TaskItem>()
+            .HasOne(task => task.project)
+            .WithMany(project => project.Tasks)
+            .HasForeignKey(task => task.ProjectId)
+            .OnDelete(DeleteBehavior.Cascade);
+
         modelBuilder.Entity<User>()
             .Property(u => u.Name)
             .HasConversion<String>();
