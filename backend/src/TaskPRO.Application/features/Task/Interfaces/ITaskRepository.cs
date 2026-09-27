@@ -6,5 +6,6 @@ namespace TaskPRO.Application.features.Task.Interfaces
     public interface ITaskRepository
     {
         Task<TaskItem> CreateTaskRequestAsync(TaskItem taskItem);
+        Task<TaskItem> UpdateTaskRequestAsync(TaskItem taskItem);
     }
 }

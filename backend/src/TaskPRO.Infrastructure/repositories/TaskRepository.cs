@@ -22,5 +22,11 @@ namespace TaskPRO.Infrastructure.repositories
             await _dbContext.SaveChangesAsync();
             return taskItem;
         }
+        public async Task<TaskItem> UpdateTaskRequestAsync(TaskItem taskItem)
+        {
+            _dbContext.Tasks.Update(taskItem);
+            await _dbContext.SaveChangesAsync();
+            return taskItem;
+        }
     }
 }

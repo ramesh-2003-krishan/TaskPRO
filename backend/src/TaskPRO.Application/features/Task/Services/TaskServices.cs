@@ -46,5 +46,32 @@ namespace TaskPRO.Application.features.Task.Services
                 TaskStatus = createdTask.Status
             };
         }
+        public async Task<UpdateTaskRequest> UpdateTaskRequestAsync(UpdateTaskRequest request, Guid projectId)
+        {
+            var taskItem = new TaskItem
+            {
+                Id = request.Id,
+                Title = request.Title,
+                Description = request.Description,
+                DueDate = request.DueDate,
+                AssignedToUserId = request.AssignedToUserId,
+                Priority = request.Priority,
+                Status = request.TaskStatus,
+                ProjectId = projectId 
+            };
+
+            var updatedTask = await _taskRepository.UpdateTaskRequestAsync(taskItem);
+
+            return new UpdateTaskRequest
+            {
+               Id = updatedTask.Id,
+               Title = updatedTask.Title,
+               Description = updatedTask.Description,
+               DueDate = updatedTask.DueDate,
+               AssignedToUserId = updatedTask.AssignedToUserId,
+               Priority = updatedTask.Priority,
+               TaskStatus = updatedTask.Status
+            };
+        }
     }
 }

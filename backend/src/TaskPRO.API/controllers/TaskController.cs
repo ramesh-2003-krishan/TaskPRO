@@ -33,5 +33,18 @@ namespace TaskPRO.API.controllers
             }
             return CreatedAtAction(nameof(CreateTask), new{id = request.Title},request);
         }
+
+        [HttpPut("{projectId}")]
+        public async Task<ActionResult<UpdateTaskRequest>> UpdateTask (Guid projectId, [FromBody]UpdateTaskRequest request)
+        {
+            var currentUserId = _currentUserService;
+            if(currentUserId == null)
+            {
+                throw new Exception ("you are not allowed to update task");
+            }
+
+            var updatedTask = await _taskService.UpdateTaskRequestAsync(request, projectId);
+            return Ok(updatedTask);
+        }
     }
 }
