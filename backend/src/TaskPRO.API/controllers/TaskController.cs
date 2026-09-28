@@ -37,7 +37,7 @@ namespace TaskPRO.API.controllers
         [HttpPut("{projectId}")]
         public async Task<ActionResult<UpdateTaskRequest>> UpdateTask (Guid projectId, [FromBody]UpdateTaskRequest request)
         {
-            var currentUserId = _currentUserService;
+            var currentUserId = _currentUserService.UserId;
             if(currentUserId == null)
             {
                 throw new Exception ("you are not allowed to update task");
@@ -45,6 +45,20 @@ namespace TaskPRO.API.controllers
 
             var updatedTask = await _taskService.UpdateTaskRequestAsync(request, projectId);
             return Ok(updatedTask);
+        }
+
+        [HttpPut("{projectId:guid}/tasks/{taskId:int}/assignment")]
+        public async Task<ActionResult<AssignTaskRequest>> AssignTask(Guid projectId, int taskId, [FromBody] AssignTaskRequest request)
+        {
+            var currentUserId = _currentUserService.UserId;
+            if(currentUserId == null)
+            {
+                throw new Exception ("you are not allowed to assign a task");
+            }
+
+            var assignedTask = await _taskService.AssignTaskRequestAsync(request, projectId, taskId);
+            return Ok(assignedTask);
+
         }
     }
 }

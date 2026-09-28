@@ -73,5 +73,25 @@ namespace TaskPRO.Application.features.Task.Services
                TaskStatus = updatedTask.Status
             };
         }
+
+        public async Task<AssignTaskRequest> AssignTaskRequestAsync(AssignTaskRequest request, Guid projectId, int taskId)
+        {
+            var taskItem = new TaskItem
+            {
+                Id = taskId,
+                ProjectId = projectId,
+                AssignedToUserId = request.UserId
+            };
+
+            var assignedTask = await _taskRepository.AssignTaskRequestAsync(taskItem);
+
+            return new AssignTaskRequest
+            {
+                ProjectId = projectId,
+                TaskItemId = assignedTask.Id,
+                UserId = assignedTask.AssignedToUserId
+                    ?? throw new InvalidOperationException("The task assignment was not saved.")
+            };
+        }
     }
 }
