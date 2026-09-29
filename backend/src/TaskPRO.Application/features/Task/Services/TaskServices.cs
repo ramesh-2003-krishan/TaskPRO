@@ -93,5 +93,29 @@ namespace TaskPRO.Application.features.Task.Services
                     ?? throw new InvalidOperationException("The task assignment was not saved.")
             };
         }
+        public async Task<TaskResponse> TaskResponseAsync(int taskId, Guid projectId)
+        {
+            var task = await _taskRepository.TaskResponseAsync(taskId, projectId);
+
+            if (task == null)
+            {
+                throw new KeyNotFoundException($"Task with ID {taskId} was not found in project {projectId}.");
+            }
+
+            return new TaskResponse
+            {
+                Id = task.Id,
+                Title = task.Title,
+                Description = task.Description,
+                DueDate = task.DueDate,
+                AssignedToUserId = task.AssignedToUserId,
+                ProjectId = task.ProjectId,
+                CreatedByUserId = task.CreatedByUserId,
+                Priority = task.Priority,
+                Status = task.Status,
+                CreatedAt = task.CreatedAt,
+                UpdatedAt = task.UpdatedAt
+            };
+        }
     }
 }

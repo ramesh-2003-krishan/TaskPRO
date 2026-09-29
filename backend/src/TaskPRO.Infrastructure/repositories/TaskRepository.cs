@@ -4,6 +4,7 @@ using TaskPRO.Application.features.Task.DTOs;
 using TaskPRO.Application.features.Task.Interfaces;
 using TaskPRO.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.CodeAnalysis;
 
 namespace TaskPRO.Infrastructure.repositories
 {
@@ -46,6 +47,11 @@ namespace TaskPRO.Infrastructure.repositories
 
             await _dbContext.SaveChangesAsync();
             return existingTask;
+        }
+        public async Task<TaskItem?> TaskResponseAsync(int taskId, Guid projectId)
+        {
+            return await _dbContext.Tasks
+                .FirstOrDefaultAsync(t => t.Id == taskId && t.ProjectId == projectId);
         }
     }
 }

@@ -23,7 +23,6 @@ namespace TaskPRO.API.controllers
         }
 
         [HttpPost]
-
         public async Task<ActionResult<CreateTaskRequest>> CreateTask ([FromBody]CreateTaskRequest request)
         {
             var currentUserId = _currentUserService.UserId;
@@ -32,6 +31,19 @@ namespace TaskPRO.API.controllers
                 throw new Exception ("you are not allowed to add a task");
             }
             return CreatedAtAction(nameof(CreateTask), new{id = request.Title},request);
+        }
+
+        [HttpGet("{projectId:guid}/tasks/{taskId:int}")]
+        public async Task<ActionResult<TaskResponse>> GetTask(Guid projectId, int taskId)
+        {
+            var currentUserId = _currentUserService.UserId;
+            if (currentUserId == null)
+            {
+                throw new Exception("you are not allowed to view a task");
+            }
+
+            var task = await _taskService.TaskResponseAsync(taskId, projectId);
+            return Ok(task);
         }
 
         [HttpPut("{projectId}")]

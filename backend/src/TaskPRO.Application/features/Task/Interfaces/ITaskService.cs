@@ -7,7 +7,6 @@ namespace TaskPRO.Application.features.Task.Interfaces
         Task<CreateTaskRequest> CreateTaskRequestAsync(CreateTaskRequest request, Guid projectId);
         Task<UpdateTaskRequest> UpdateTaskRequestAsync(UpdateTaskRequest request, Guid projectId);
         Task<AssignTaskRequest> AssignTaskRequestAsync(AssignTaskRequest request, Guid projectId, int taskItemId);
-        
-
+        Task<TaskResponse> TaskResponseAsync(int taskId, Guid projectId);
     }
 }
