@@ -1,9 +1,11 @@
+using TaskPRO.Domain.entities;
 using TaskPRO.Domain.enums;
 
-namespace TaskPRO.Domain.entities
+namespace TaskPRO.Application.features.SubTask.DTOs
 {
-    public class SubTask
+    public class CreateSubTaskRequest
     {
+       
         public int Id { get; set; }
         public string Title { get; set; } = string.Empty;
         public bool IsCompleted { get; set; } = false;
@@ -11,4 +13,5 @@ namespace TaskPRO.Domain.entities
         public TaskItem? TaskItem { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }
+    
 }

@@ -24,6 +24,7 @@ public class AppDBContext : DbContext, IAppDbContext
     public DbSet<TaskAttachment> TaskAttachments { get; set; }
     public DbSet<Notification> Notifications { get; set; }
     public DbSet<ActivityLog> ActivityLogs { get; set; }
+    public DbSet<SubTask> SubTasks { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -134,7 +135,11 @@ public class AppDBContext : DbContext, IAppDbContext
             .HasForeignKey(al => al.UserId)
             .OnDelete(DeleteBehavior.Cascade);
 
-       
+        modelBuilder.Entity<SubTask>()
+            .HasOne(st => st.TaskItem)
+            .WithMany(t => t.SubTasks)
+            .HasForeignKey(st => st.TaskItemId)
+            .OnDelete(DeleteBehavior.Cascade);
 
     }
 
