@@ -7,5 +7,6 @@ namespace TaskPRO.Application.features.SubTask.Interfaces
     public interface ISubTaskRepository
     {
         Task<SubTaskEntity> CreateSubTaskAsync(SubTaskEntity subTask, Guid projectId, int taskItemId);
+        Task<SubTaskEntity> UpdateSubTaskAsync(SubTaskEntity subTask, Guid projectId, int taskItemId);
     }
 }

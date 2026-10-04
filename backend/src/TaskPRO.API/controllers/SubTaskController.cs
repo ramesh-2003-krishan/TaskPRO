@@ -27,5 +27,15 @@ namespace TaskPRO.API.controllers
             var createdSubTask = await _subTaskService.CreateSubTaskAsync(request, projectId, taskItemId);
             return StatusCode((int)HttpStatusCode.Created, createdSubTask);
         }
+
+        [HttpPut("{projectId}/{taskItemId}")]
+        [Authorize]
+        public async Task<IActionResult> UpdateSubTask([FromBody] UpdateSubTaskRequest request, Guid projectId, int taskItemId)
+        {
+            var updatedSubTask = await _subTaskService.UpdateSubTaskAsync(request, projectId, taskItemId);
+            return Ok(updatedSubTask);
+        }
     }
+
+    
 }

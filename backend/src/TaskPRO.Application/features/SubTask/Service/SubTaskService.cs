@@ -36,5 +36,27 @@ namespace TaskPRO.Application.features.SubTask.Service
                 CreatedAt = createdSubTask.CreatedAt
             };
         }
+        public async Task<UpdateSubTaskRequest> UpdateSubTaskAsync(UpdateSubTaskRequest request, Guid projectId, int taskItemId)
+        {
+            var subTaskEntity = new SubTaskEntity
+            {
+                Id = request.Id,
+                Title = request.Title,
+                IsCompleted = request.IsCompleted,
+                TaskItemId = taskItemId,
+                UpdatedAt = DateTime.UtcNow
+            };
+
+            var updatedSubTask = await _subTaskRepository.UpdateSubTaskAsync(subTaskEntity, projectId, taskItemId);
+
+            return new UpdateSubTaskRequest
+            {
+                Id = updatedSubTask.Id,
+                Title = updatedSubTask.Title,
+                IsCompleted = updatedSubTask.IsCompleted,
+                TaskItemId = updatedSubTask.TaskItemId,
+                UpdatedAt = updatedSubTask.UpdatedAt
+            };
+        }
     }
 }
