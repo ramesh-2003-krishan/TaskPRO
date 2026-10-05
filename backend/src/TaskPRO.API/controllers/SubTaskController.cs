@@ -35,6 +35,18 @@ namespace TaskPRO.API.controllers
             var updatedSubTask = await _subTaskService.UpdateSubTaskAsync(request, projectId, taskItemId);
             return Ok(updatedSubTask);
         }
+
+        [HttpGet("{projectId}/{taskItemId}")]
+        [Authorize]
+        public async Task<IActionResult> GetSubTask(Guid projectId, int taskItemId)
+        {
+            var subTask = await _subTaskService.SubTaskResponseAsync(taskItemId, projectId);
+            if (subTask is null)
+            {
+                return NotFound();
+            }
+            return Ok(subTask);
+        }
     }
 
     

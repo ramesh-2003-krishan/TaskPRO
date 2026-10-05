@@ -68,5 +68,22 @@ namespace TaskPRO.Infrastructure.repositories
             await _dbContext.SaveChangesAsync();
             return existingSubTask;
         }
+
+        public async Task<SubTask?> SubTaskResponseAsync(int TaskId, Guid projectId)
+        {
+            var existingTask = await _dbContext.Tasks.FindAsync(TaskId);
+            if (existingTask is null)
+            {
+                throw new KeyNotFoundException($"Task with ID {TaskId} was not found.");
+            }
+
+            if (existingTask.ProjectId != projectId)
+            {
+                throw new KeyNotFoundException($"Task with ID {TaskId} was not found in the specified project.");
+            }
+            
+            return await _dbContext.SubTasks
+                .FirstOrDefaultAsync(st => st.TaskItemId == TaskId);
+        }
     }
 }
