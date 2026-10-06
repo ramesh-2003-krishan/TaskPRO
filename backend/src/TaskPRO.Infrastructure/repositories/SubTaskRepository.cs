@@ -85,5 +85,33 @@ namespace TaskPRO.Infrastructure.repositories
             return await _dbContext.SubTasks
                 .FirstOrDefaultAsync(st => st.TaskItemId == TaskId);
         }
+        public async Task<SubTask?> DeleteSubTaskAsync(SubTask subTask, Guid projectId, int taskItemId)
+        {
+            var existingTask = await _dbContext.Tasks.FindAsync(taskItemId);
+            if (existingTask is null)
+            {
+                throw new KeyNotFoundException($"Task with ID {taskItemId} was not found.");
+            }
+
+            if (existingTask.ProjectId != projectId)
+            {
+                throw new KeyNotFoundException($"Task with ID {taskItemId} was not found in the specified project.");
+            }
+
+            var existingSubTask = await _dbContext.SubTasks.FindAsync(subTask.Id);
+            if (existingSubTask is null)
+            {
+                throw new KeyNotFoundException($"SubTask with ID {subTask.Id} was not found.");
+            }
+
+            if (existingSubTask.TaskItemId != taskItemId)
+            {
+                throw new KeyNotFoundException($"SubTask with ID {subTask.Id} does not belong to the specified task.");
+            }
+
+            _dbContext.SubTasks.Remove(existingSubTask);
+            await _dbContext.SaveChangesAsync();
+            return existingSubTask;
+        }
     }
 }

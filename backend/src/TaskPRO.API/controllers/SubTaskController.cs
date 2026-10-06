@@ -47,6 +47,19 @@ namespace TaskPRO.API.controllers
             }
             return Ok(subTask);
         }
+
+        [HttpDelete("{projectId}/{taskItemId}")]
+        [Authorize]
+        public async Task<IActionResult> DeleteSubTask(Guid projectId, int taskItemId)
+        {
+            var deleteRequest = new DeleteSubTaskRequest
+            {
+                Id = taskItemId
+            };
+
+            var deletedSubTask = await _subTaskService.DeleteSubTaskAsync(deleteRequest, taskItemId, projectId);
+            return Ok(deletedSubTask);
+        }
     }
 
     

@@ -9,5 +9,6 @@ namespace TaskPRO.Application.features.SubTask.Interfaces
         Task<SubTaskEntity> CreateSubTaskAsync(SubTaskEntity subTask, Guid projectId, int taskItemId);
         Task<SubTaskEntity> UpdateSubTaskAsync(SubTaskEntity subTask, Guid projectId, int taskItemId);
         Task<SubTaskEntity?> SubTaskResponseAsync(int TaskId, Guid projectId);
+        Task<SubTaskEntity?> DeleteSubTaskAsync(SubTaskEntity subTask, Guid projectId, int TaskItemId);
     }
 }
