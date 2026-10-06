@@ -117,5 +117,19 @@ namespace TaskPRO.Application.features.Task.Services
                 UpdatedAt = task.UpdatedAt
             };
         }
+        public async Task<DeleteTaskRequest> DeleteTaskRequestAsync(DeleteTaskRequest request, Guid projectId, int taskId)
+        {
+            var deletedTask = await _taskRepository.DeleteTaskRequestAsync(taskId, projectId);
+
+            if (deletedTask == null)
+            {
+                throw new KeyNotFoundException($"Task with ID {taskId} was not found in project {projectId}.");
+            }
+
+            return new DeleteTaskRequest
+            {
+                Id = deletedTask.Id
+            };
+        }
     }
 }

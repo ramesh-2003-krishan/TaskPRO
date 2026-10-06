@@ -53,5 +53,19 @@ namespace TaskPRO.Infrastructure.repositories
             return await _dbContext.Tasks
                 .FirstOrDefaultAsync(t => t.Id == taskId && t.ProjectId == projectId);
         }
+        public async Task<TaskItem?> DeleteTaskRequestAsync(int taskId, Guid projectId)
+        {
+            var taskItem = await _dbContext.Tasks
+                .FirstOrDefaultAsync(t => t.Id == taskId && t.ProjectId == projectId);
+
+            if (taskItem is null)
+            {
+                return null;
+            }
+
+            _dbContext.Tasks.Remove(taskItem);
+            await _dbContext.SaveChangesAsync();
+            return taskItem;
+        }
     }
 }

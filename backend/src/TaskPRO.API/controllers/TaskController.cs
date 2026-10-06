@@ -72,5 +72,19 @@ namespace TaskPRO.API.controllers
             return Ok(assignedTask);
 
         }
+
+        [HttpDelete("{projectId:guid}/tasks/{taskId:int}")]
+        public async Task<ActionResult<DeleteTaskRequest>> DeleteTask(Guid projectId, int taskId)
+        {
+            var currentUserId = _currentUserService.UserId;
+            if(currentUserId == null)
+            {
+                throw new Exception ("you are not allowed to delete a task");
+            }
+
+            var deleteTaskRequest = new DeleteTaskRequest { Id = taskId };
+            var deletedTask = await _taskService.DeleteTaskRequestAsync(deleteTaskRequest, projectId, taskId);
+            return Ok(deletedTask);
+        }
     }
 }
