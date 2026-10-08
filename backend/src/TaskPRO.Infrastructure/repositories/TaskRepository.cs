@@ -67,5 +67,24 @@ namespace TaskPRO.Infrastructure.repositories
             await _dbContext.SaveChangesAsync();
             return taskItem;
         }
+        public async Task<IEnumerable<TaskItem>> SortTaskRequestAsync(SortTaskRequest request, Guid projectId)
+        {
+            var tasksQuery = _dbContext.Tasks.AsQueryable();
+
+            
+            tasksQuery = tasksQuery.Where(t => t.ProjectId == projectId);
+
+            
+            tasksQuery = request.SortBy switch
+            {
+                "Title" => request.SortOrder == global::TaskPRO.Application.features.Task.DTOs.SortOrder.Asc ? tasksQuery.OrderBy(t => t.Title) : tasksQuery.OrderByDescending(t => t.Title),
+                "DueDate" => request.SortOrder == global::TaskPRO.Application.features.Task.DTOs.SortOrder.Asc ? tasksQuery.OrderBy(t => t.DueDate) : tasksQuery.OrderByDescending(t => t.DueDate),
+                "Priority" => request.SortOrder == global::TaskPRO.Application.features.Task.DTOs.SortOrder.Asc ? tasksQuery.OrderBy(t => t.Priority) : tasksQuery.OrderByDescending(t => t.Priority),
+                "Status" => request.SortOrder == global::TaskPRO.Application.features.Task.DTOs.SortOrder.Asc ? tasksQuery.OrderBy(t => t.Status) : tasksQuery.OrderByDescending(t => t.Status),
+                _ => throw new ArgumentException($"Invalid SortBy value: {request.SortBy}")
+            };
+
+            return await tasksQuery.ToListAsync();
+        }
     }
 }

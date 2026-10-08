@@ -131,5 +131,15 @@ namespace TaskPRO.Application.features.Task.Services
                 Id = deletedTask.Id
             };
         }
+        public async Task<SortTaskRequest> SortTaskRequestAsync(SortTaskRequest request, Guid projectId)
+        {
+            var sortedTasks = await _taskRepository.SortTaskRequestAsync(request, projectId);
+
+            return new SortTaskRequest
+            {
+                SortBy = request.SortBy,
+                SortOrder = request.SortOrder
+            };
+        }
     }
 }

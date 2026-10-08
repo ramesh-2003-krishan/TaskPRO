@@ -86,5 +86,18 @@ namespace TaskPRO.API.controllers
             var deletedTask = await _taskService.DeleteTaskRequestAsync(deleteTaskRequest, projectId, taskId);
             return Ok(deletedTask);
         }
+
+        [HttpGet("{projectId:guid}/tasks/sort")]
+        public async Task<ActionResult<IEnumerable<TaskResponse>>> SortTasks(Guid projectId, [FromQuery] SortTaskRequest request)
+        {
+            var currentUserId = _currentUserService.UserId;
+            if (currentUserId == null)
+            {
+                throw new Exception("you are not allowed to sort tasks");
+            }
+
+            var sortedTasks = await _taskService.SortTaskRequestAsync(request, projectId);
+            return Ok(sortedTasks);
+        }
     }
 }
