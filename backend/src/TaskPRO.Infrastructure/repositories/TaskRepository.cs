@@ -86,5 +86,21 @@ namespace TaskPRO.Infrastructure.repositories
 
             return await tasksQuery.ToListAsync();
         }
+        public async Task<TaskItem?> UnAssignTaskRequestAsync(int taskId, Guid projectId)
+        {
+            var existingTask = await _dbContext.Tasks
+                .FirstOrDefaultAsync(t => t.Id == taskId && t.ProjectId == projectId);
+
+            if (existingTask is null)
+            {
+                return null;
+            }
+
+            existingTask.AssignedToUserId = null;
+            existingTask.UpdatedAt = DateTime.UtcNow;
+
+            await _dbContext.SaveChangesAsync();
+            return existingTask;
+        }
     }
 }

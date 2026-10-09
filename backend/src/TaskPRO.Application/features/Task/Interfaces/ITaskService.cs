@@ -10,5 +10,6 @@ namespace TaskPRO.Application.features.Task.Interfaces
         Task<TaskResponse> TaskResponseAsync(int taskId, Guid projectId);
         Task<DeleteTaskRequest> DeleteTaskRequestAsync(DeleteTaskRequest request, Guid projectId, int taskItemId);
         Task<SortTaskRequest> SortTaskRequestAsync(SortTaskRequest request, Guid projectId);
+        Task<UnAssignTaskRequest> UnAssignTaskRequestAsync(UnAssignTaskRequest request, Guid projectId, int taskItemId);
     }
 }

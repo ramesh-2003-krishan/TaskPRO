@@ -99,5 +99,19 @@ namespace TaskPRO.API.controllers
             var sortedTasks = await _taskService.SortTaskRequestAsync(request, projectId);
             return Ok(sortedTasks);
         }
+
+        [HttpPut("{projectId:guid}/tasks/{taskId:int}/unassign")]
+        public async Task<ActionResult<UnAssignTaskRequest>> UnAssignTask(Guid projectId, int taskId)
+        {
+            var currentUserId = _currentUserService.UserId;
+            if (currentUserId == null)
+            {
+                throw new Exception("you are not allowed to unassign a task");
+            }
+
+            var unassignRequest = new UnAssignTaskRequest { TaskId = taskId };
+            var unassignedTask = await _taskService.UnAssignTaskRequestAsync(unassignRequest, projectId, taskId);
+            return Ok(unassignedTask);
+        }
     }
 }

@@ -141,5 +141,19 @@ namespace TaskPRO.Application.features.Task.Services
                 SortOrder = request.SortOrder
             };
         }
+        public async Task<UnAssignTaskRequest> UnAssignTaskRequestAsync(UnAssignTaskRequest request, Guid projectId, int taskId)
+        {
+            var unassignedTask = await _taskRepository.UnAssignTaskRequestAsync(taskId, projectId);
+
+            if (unassignedTask == null)
+            {
+                throw new KeyNotFoundException($"Task with ID {taskId} was not found in project {projectId}.");
+            }
+
+            return new UnAssignTaskRequest
+            {
+                TaskId = unassignedTask.Id
+            };
+        }
     }
 }

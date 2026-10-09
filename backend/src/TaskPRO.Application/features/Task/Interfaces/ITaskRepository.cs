@@ -11,5 +11,6 @@ namespace TaskPRO.Application.features.Task.Interfaces
         Task<TaskItem?> TaskResponseAsync(int taskId, Guid projectId);
         Task<TaskItem?> DeleteTaskRequestAsync(int taskId, Guid projectId);
         Task<IEnumerable<TaskItem>> SortTaskRequestAsync(SortTaskRequest request, Guid projectId);
+        Task<TaskItem?> UnAssignTaskRequestAsync(int taskId, Guid projectId);
     }
 }
