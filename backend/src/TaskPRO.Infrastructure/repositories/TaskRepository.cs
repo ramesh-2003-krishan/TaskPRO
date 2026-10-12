@@ -102,5 +102,18 @@ namespace TaskPRO.Infrastructure.repositories
             await _dbContext.SaveChangesAsync();
             return existingTask;
         }
+        public async Task<IEnumerable<TaskItem>> TaskPaginationAsync(Guid projectId, int pageNumber, int pageSize)
+        {
+            var tasksQuery = _dbContext.Tasks.AsQueryable();
+
+            tasksQuery = tasksQuery.Where(t => t.ProjectId == projectId);
+
+            var paginatedTasks = await tasksQuery
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            return paginatedTasks;
+        }
     }
 }

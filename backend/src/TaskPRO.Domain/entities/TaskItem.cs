@@ -25,6 +25,7 @@ namespace TaskPRO.Domain.entities
         public ICollection<TaskComment> Comments { get; set; } = new List<TaskComment>(); 
         public ICollection<TaskAttachment> Attachments { get; set; } = new List<TaskAttachment>();
         public ICollection<SubTask> SubTasks { get; set; } = new List<SubTask>();
+        
 
     }
 

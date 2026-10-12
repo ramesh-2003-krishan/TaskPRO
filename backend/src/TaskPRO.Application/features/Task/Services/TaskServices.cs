@@ -155,5 +155,29 @@ namespace TaskPRO.Application.features.Task.Services
                 TaskId = unassignedTask.Id
             };
         }
+        public async Task<TaskPagination> GetTasksByProjectIdAsync(Guid projectId, int pageNumber, int pageSize)
+        {
+            var tasks = await _taskRepository.TaskPaginationAsync(projectId, pageNumber, pageSize);
+
+            return new TaskPagination
+            {
+            PageNumber = pageNumber,
+            PageSize = pageSize,
+                TaskResponses = tasks.Select(task => new TaskResponse
+                {
+                    Id = task.Id,
+                    Title = task.Title,
+                    Description = task.Description,
+                    DueDate = task.DueDate,
+                    AssignedToUserId = task.AssignedToUserId,
+                    ProjectId = task.ProjectId,
+                    CreatedByUserId = task.CreatedByUserId,
+                    Priority = task.Priority,
+                    Status = task.Status,
+                    CreatedAt = task.CreatedAt,
+                    UpdatedAt = task.UpdatedAt
+                }).ToList()
+            };
+        }
     }
 }

@@ -112,6 +112,19 @@ namespace TaskPRO.API.controllers
             var unassignRequest = new UnAssignTaskRequest { TaskId = taskId };
             var unassignedTask = await _taskService.UnAssignTaskRequestAsync(unassignRequest, projectId, taskId);
             return Ok(unassignedTask);
+        } 
+
+        [HttpGet("{projectId:guid}/tasks/pagination")]
+        public async Task<ActionResult<TaskPagination>> GetTasksByProjectId(Guid projectId, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
+        {
+            var currentUserId = _currentUserService.UserId;
+            if (currentUserId == null)
+            {
+                throw new Exception("you are not allowed to view tasks");
+            }
+
+            var tasks = await _taskService.GetTasksByProjectIdAsync(projectId, pageNumber, pageSize);
+            return Ok(tasks);
         }
     }
 }
