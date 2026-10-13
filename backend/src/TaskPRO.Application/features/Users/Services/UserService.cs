@@ -95,8 +95,18 @@ namespace TaskPRO.Application.features.Users.Services
                 throw new KeyNotFoundException($"User with ID {userId} not found.");
             }
 
-          
-            user.PasswordHashedValue = updatePasswordDto.NewPassword; 
+            var isCurrentPasswordValid = _passwordHasher.VerifyPassword(updatePasswordDto.CurrentPassword, user.PasswordHashedValue);
+            if (!isCurrentPasswordValid)
+            {
+                throw new Exception("Current password is incorrect.");
+            }
+            var isNewPasswordValid = _passwordHasher.VerifyPassword(updatePasswordDto.NewPassword, user.PasswordHashedValue);
+            if (isNewPasswordValid)
+            {
+                throw new Exception("New password cannot be the same as the current password.");
+            }
+            var newPasswordHashed = _passwordHasher.HashPassword(updatePasswordDto.NewPassword);
+            user.PasswordHashedValue = newPasswordHashed;
 
             await _userRepository.UpdateUserAsync(user);
 
