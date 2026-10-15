@@ -57,6 +57,8 @@ namespace TaskPRO.Infrastructure.authentication
         {
             var jwtSettings = _configuration.GetSection("Jwt");
             var expires = DateTime.Now.AddDays(Convert.ToDouble(jwtSettings["RefreshTokenExpirationInDays"]));
+            expires = expires.ToUniversalTime();
+            
 
             var randomNumber = new byte[32];
             using var ran = RandomNumberGenerator.Create();
@@ -65,7 +67,7 @@ namespace TaskPRO.Infrastructure.authentication
             return new RefreshToken
             {
                 Token = Convert.ToBase64String(randomNumber),
-                Expires = DateTime.UtcNow.AddDays(Convert.ToDouble(jwtSettings["RefreshTokenExpirationInDays"])),
+                Expires = expires,
                 Created = DateTime.UtcNow,
                 UserId = userId
             };

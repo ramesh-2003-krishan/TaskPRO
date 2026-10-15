@@ -24,6 +24,9 @@ builder.Services.AddValidatorsFromAssemblyContaining<TaskPRO.Application.feature
 builder.Services.AddValidatorsFromAssemblyContaining<TaskPRO.Application.features.Projects.Validators.AddProjectMemberValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<TaskPRO.Application.features.Projects.Validators.UpdateProjectMemberRoleValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<TaskPRO.Application.features.Projects.Validators.UpdateProjectValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<TaskPRO.Application.features.Task.Validators.CreateTaskValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<TaskPRO.Application.features.Task.Validators.UpdateTaskValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<TaskPRO.Application.features.Task.Validators.AssignTaskValidator>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddInfrastructure(builder.Configuration);

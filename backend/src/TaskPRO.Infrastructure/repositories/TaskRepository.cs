@@ -19,12 +19,26 @@ namespace TaskPRO.Infrastructure.repositories
 
         public async Task<TaskItem> CreateTaskRequestAsync(TaskItem taskItem)
         {
+            var existingTask = await _dbContext.Tasks
+                .FirstOrDefaultAsync(t => t.Title == taskItem.Title && t.ProjectId == taskItem.ProjectId);
+                
+            if (existingTask != null)
+            {
+                throw new InvalidOperationException("A task with the same title already exists in the specified project.");
+            }
+
             _dbContext.Tasks.Add(taskItem);
             await _dbContext.SaveChangesAsync();
             return taskItem;
         }
         public async Task<TaskItem> UpdateTaskRequestAsync(TaskItem taskItem)
         {
+            var existingTask = await _dbContext.Tasks.FindAsync(taskItem.Id);
+            if (existingTask is null)
+            {
+                throw new KeyNotFoundException($"Task with ID {taskItem.Id} was not found.");
+            }
+
             _dbContext.Tasks.Update(taskItem);
             await _dbContext.SaveChangesAsync();
             return taskItem;
