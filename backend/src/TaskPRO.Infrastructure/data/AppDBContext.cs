@@ -25,6 +25,7 @@ public class AppDBContext : DbContext, IAppDbContext
     public DbSet<Notification> Notifications { get; set; }
     public DbSet<ActivityLog> ActivityLogs { get; set; }
     public DbSet<SubTask> SubTasks { get; set; }
+   
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
