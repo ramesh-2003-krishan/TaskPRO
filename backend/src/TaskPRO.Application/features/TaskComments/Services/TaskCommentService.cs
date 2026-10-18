@@ -8,12 +8,10 @@ namespace TaskPRO.Application.features.TaskComments.Services
     public class TaskCommentService : ITaskCommentService
     {
         private readonly ITaskCommentRepository _taskCommentRepository;
-        private readonly ITaskCommentService _taskCommentService;
 
-        public TaskCommentService(ITaskCommentRepository taskCommentRepository, ITaskCommentService taskCommentService)
+        public TaskCommentService(ITaskCommentRepository taskCommentRepository)
         {
             _taskCommentRepository = taskCommentRepository;
-            _taskCommentService = taskCommentService;
         }
 
         public async Task<TaskComment> CreateCommentAsync(CreateCommentRequest request, int taskId, Guid userId)
