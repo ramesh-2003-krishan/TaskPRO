@@ -40,6 +40,7 @@ namespace TaskPRO.Infrastructure.repositories
             }
 
             existingComment.Content = comment.Content;
+            existingComment.UpdatedAt = DateTime.UtcNow;
             
 
             _dbContext.TaskComments.Update(existingComment);
@@ -62,6 +63,11 @@ namespace TaskPRO.Infrastructure.repositories
 
         public async Task<TaskComment?> GetCommentByIdAsync(Guid commentId)
         {
+            var comment = await _dbContext.TaskComments.FindAsync(commentId);
+            if(comment is null)
+            {
+                throw new KeyNotFoundException("There is not comment what you find" );
+            }
             return await _dbContext.TaskComments.FindAsync(commentId);
         }
 

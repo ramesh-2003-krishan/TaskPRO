@@ -9,6 +9,8 @@ using TaskPRO.Application.features.Task.Services;
 using TaskPRO.Infrastructure.authentication.CurrentUserService;
 using TaskPRO.Application.Features.Users.Interfaces;
 using TaskPRO.Infrastructure.repositories;
+using TaskPRO.Application.features.TaskComments.Interfaces;
+using TaskPRO.Application.features.TaskComments.Services;
 
 namespace TaskPRO.Infrastructure;
 
@@ -32,6 +34,8 @@ public static class DependencyInjection
         services.AddScoped<ITaskRepository, TaskRepository>();
         services.AddScoped<ITaskService, TaskServices>();
         services.AddScoped<TaskPRO.Application.features.Projects.Interfaces.IProjectRepository, TaskPRO.Infrastructure.repositories.ProjectRepository>();
+        services.AddScoped<ITaskCommentRepository, TaskCommentRepository>();
+        services.AddScoped<ITaskCommentService, TaskCommentService>();
 
         return services;
     }

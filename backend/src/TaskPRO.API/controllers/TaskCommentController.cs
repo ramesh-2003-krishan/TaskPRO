@@ -9,11 +9,13 @@ using TaskPRO.Application.features.TaskComments.DTOs;
 using TaskPRO.Application.features.TaskComments.Services;
 using TaskPRO.Application.features.TaskComments.Validators;
 using TaskPRO.Application.interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 
 namespace TaskPRO.API.controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/[controller]")]
     public class TaskCommentController : ControllerBase
     {
