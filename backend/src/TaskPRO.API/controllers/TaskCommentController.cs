@@ -60,5 +60,23 @@ namespace TaskPRO.API.controllers
             var result = await _taskCommentService.DeleteCommentAsync(commentId, userId.Value);
             return Ok(result);
         }
+
+        [HttpGet("{commentId:guid}")]
+        public async Task<ActionResult<TaskComment>> GetComment(Guid commentId)
+        {
+            var userId = _currentUserService.UserId;
+            if (userId is null)
+            {
+                return Unauthorized();
+            }
+
+            var comment = await _taskCommentService.GetCommentByIdAsync(commentId, userId.Value);
+            if (comment is null)
+            {
+                return NotFound();
+            }
+
+            return Ok(comment);
+        }
     }
 }
