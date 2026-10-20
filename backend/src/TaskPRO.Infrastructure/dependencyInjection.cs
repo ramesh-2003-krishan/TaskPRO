@@ -11,6 +11,11 @@ using TaskPRO.Application.Features.Users.Interfaces;
 using TaskPRO.Infrastructure.repositories;
 using TaskPRO.Application.features.TaskComments.Interfaces;
 using TaskPRO.Application.features.TaskComments.Services;
+using TaskPRO.Application.features.Projects.Interfaces;
+using TaskPRO.Application.features.Users.Interfaces;
+using TaskPRO.Application.features.Users.Services;
+using TaskPRO.Application.features.SubTask.Interfaces;
+using TaskPRO.Application.features.SubTask.Service;
 
 namespace TaskPRO.Infrastructure;
 
@@ -36,6 +41,18 @@ public static class DependencyInjection
         services.AddScoped<TaskPRO.Application.features.Projects.Interfaces.IProjectRepository, TaskPRO.Infrastructure.repositories.ProjectRepository>();
         services.AddScoped<ITaskCommentRepository, TaskCommentRepository>();
         services.AddScoped<ITaskCommentService, TaskCommentService>();
+        services.AddScoped<ITaskService, TaskServices>();
+        services.AddScoped<ITaskRepository, TaskRepository>();
+        services.AddScoped<TaskPRO.Application.features.Projects.Interfaces.IProjectRepository, TaskPRO.Infrastructure.repositories.ProjectRepository>();
+        services.AddScoped<ITaskCommentRepository, TaskCommentRepository>();
+        services.AddScoped<ITaskCommentService, TaskCommentService>();
+        services.AddScoped<ITaskService, TaskServices>();
+        services.AddScoped<ITaskRepository, TaskRepository>();
+        services.AddScoped<TaskPRO.Application.features.Projects.Interfaces.IProjectRepository, TaskPRO.Infrastructure.repositories.ProjectRepository>();
+        services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IUserService, UserService>();
+        services.AddScoped<ISubTaskRepository, SubTaskRepository>();
+        services.AddScoped<ISubTaskService, SubTaskService>();
 
         return services;
     }

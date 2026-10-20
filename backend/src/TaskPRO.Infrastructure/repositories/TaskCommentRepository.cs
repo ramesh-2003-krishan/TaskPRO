@@ -15,13 +15,11 @@ namespace TaskPRO.Infrastructure.repositories
 {
     public class TaskCommentRepository : ITaskCommentRepository
     {
-        private readonly ITaskCommentRepository _taskCommentRepository;
         private readonly AppDBContext _dbContext;
 
-        public TaskCommentRepository(AppDBContext dbContext, ITaskCommentRepository taskCommentRepository)
+        public TaskCommentRepository(AppDBContext dbContext)
         {
             _dbContext = dbContext;
-            _taskCommentRepository = taskCommentRepository;
         }
 
         public async Task<TaskComment> CreateCommentAsync(TaskComment comment)
@@ -64,11 +62,7 @@ namespace TaskPRO.Infrastructure.repositories
         public async Task<TaskComment?> GetCommentByIdAsync(Guid commentId)
         {
             var comment = await _dbContext.TaskComments.FindAsync(commentId);
-            if(comment is null)
-            {
-                throw new KeyNotFoundException("There is not comment what you find" );
-            }
-            return await _dbContext.TaskComments.FindAsync(commentId);
+            return comment;
         }
 
         public async Task<IEnumerable<TaskComment>> GetCommentsByTaskIdAsync(int taskId)

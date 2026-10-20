@@ -52,6 +52,18 @@ namespace TaskPRO.Application.features.TaskComments.Services
             return await _taskCommentRepository.DeleteCommentAsync(commentId);
         }
 
+        public async Task<TaskComment?> GetCommentByIdAsync(Guid commentId, Guid userId)
+        {
+            var comment = await _taskCommentRepository.GetCommentByIdAsync(commentId);
+
+            if (comment is not null && comment.UserId != userId)
+            {
+                throw new UnauthorizedAccessException("You are not authorized to view this comment.");
+            }
+
+            return comment;
+        }
+
         public async Task<IEnumerable<TaskComment>> GetCommentsByTaskIdAsync(int taskId)
         {
             return await _taskCommentRepository.GetCommentsByTaskIdAsync(taskId);

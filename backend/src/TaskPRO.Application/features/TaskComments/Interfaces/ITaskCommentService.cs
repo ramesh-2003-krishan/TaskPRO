@@ -9,6 +9,7 @@ namespace TaskPRO.Application.features.TaskComments.Interfaces
         Task<TaskComment> CreateCommentAsync(CreateCommentRequest request, int taskId, Guid userId);
         Task<TaskComment> UpdateCommentAsync(UpdateCommentRequest request, Guid commentId, Guid userId);
         Task<bool> DeleteCommentAsync(Guid commentId, Guid userId);
+        Task<TaskComment?> GetCommentByIdAsync(Guid commentId, Guid userId);
         Task<IEnumerable<TaskComment>> GetCommentsByTaskIdAsync(int taskId);
     }
 }
