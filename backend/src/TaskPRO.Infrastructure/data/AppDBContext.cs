@@ -32,7 +32,7 @@ public class AppDBContext : DbContext, IAppDbContext
     {
         base.OnModelCreating(modelBuilder);
 
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppContext).Assembly);
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDBContext).Assembly);
 
         modelBuilder.Entity<Role>()
             .Property(r => r.Name)
@@ -146,4 +146,3 @@ public class AppDBContext : DbContext, IAppDbContext
 
 
 }
-
