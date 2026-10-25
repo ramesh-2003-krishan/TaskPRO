@@ -41,7 +41,7 @@ namespace TaskPRO.Infrastructure.authentication
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-            var expires = DateTime.Now.AddMinutes(Convert.ToDouble(jwtSettings["TokenExpirationInMinutes"]));
+            var expires = DateTime.UtcNow.AddMinutes(Convert.ToDouble(jwtSettings["AccessTokenExpirationInMinutes"]));
 
             var token = new JwtSecurityToken(
                 issuer: jwtSettings["Issuer"],
@@ -56,7 +56,7 @@ namespace TaskPRO.Infrastructure.authentication
         public RefreshToken GenerateRefreshToken(Guid userId)
         {
             var jwtSettings = _configuration.GetSection("Jwt");
-            var expires = DateTime.Now.AddDays(Convert.ToDouble(jwtSettings["RefreshTokenExpirationInDays"]));
+            var expires = DateTime.UtcNow.AddDays(Convert.ToDouble(jwtSettings["RefreshTokenExpirationInDays"]));
             expires = expires.ToUniversalTime();
             
 
