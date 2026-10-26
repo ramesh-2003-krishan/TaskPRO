@@ -30,6 +30,10 @@ namespace TaskPRO.Infrastructure.Data.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("ContentType")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
@@ -41,12 +45,20 @@ namespace TaskPRO.Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<long>("SizeBytes")
+                        .HasColumnType("bigint");
+
                     b.Property<int>("TaskItemId")
                         .HasColumnType("integer");
+
+                    b.Property<Guid>("UploadedByUserId")
+                        .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
                     b.HasIndex("TaskItemId");
+
+                    b.HasIndex("UploadedByUserId");
 
                     b.ToTable("TaskAttachments");
                 });
@@ -81,19 +93,25 @@ namespace TaskPRO.Infrastructure.Data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<string>("Details")
+                        .HasColumnType("text");
+
                     b.Property<string>("Entity")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("EntityId")
+                    b.Property<int?>("EntityId")
                         .HasColumnType("integer");
+
+                    b.Property<Guid?>("ProjectId")
+                        .HasColumnType("uuid");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId", "Entity", "EntityId", "Action", "ProjectId");
 
                     b.ToTable("ActivityLogs");
                 });
@@ -116,6 +134,12 @@ namespace TaskPRO.Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<Guid?>("ProjectId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int?>("TaskItemId")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("text");
@@ -129,7 +153,7 @@ namespace TaskPRO.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId", "IsRead");
 
                     b.ToTable("Notifications");
                 });
@@ -168,14 +192,9 @@ namespace TaskPRO.Infrastructure.Data.Migrations
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("UserId1")
-                        .HasColumnType("uuid");
-
                     b.HasKey("Id");
 
                     b.HasIndex("UserId");
-
-                    b.HasIndex("UserId1");
 
                     b.ToTable("Projects");
                 });
@@ -200,9 +219,10 @@ namespace TaskPRO.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProjectId");
-
                     b.HasIndex("UserId");
+
+                    b.HasIndex("ProjectId", "UserId")
+                        .IsUnique();
 
                     b.ToTable("ProjectMembers");
                 });
@@ -282,20 +302,21 @@ namespace TaskPRO.Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
                     b.HasKey("Id");
 
                     b.HasIndex("TaskItemId");
 
-                    b.ToTable("SubTask");
+                    b.ToTable("SubTasks");
                 });
 
             modelBuilder.Entity("TaskPRO.Domain.entities.TaskComment", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Content")
                         .IsRequired()
@@ -306,6 +327,9 @@ namespace TaskPRO.Infrastructure.Data.Migrations
 
                     b.Property<int>("TaskItemId")
                         .HasColumnType("integer");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
@@ -426,7 +450,15 @@ namespace TaskPRO.Infrastructure.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("TaskPRO.Domain.entities.User", "UploadedBy")
+                        .WithMany()
+                        .HasForeignKey("UploadedByUserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.Navigation("TaskItem");
+
+                    b.Navigation("UploadedBy");
                 });
 
             modelBuilder.Entity("TaskItemUser", b =>
@@ -469,14 +501,10 @@ namespace TaskPRO.Infrastructure.Data.Migrations
             modelBuilder.Entity("TaskPRO.Domain.entities.Project", b =>
                 {
                     b.HasOne("TaskPRO.Domain.entities.User", "User")
-                        .WithMany()
+                        .WithMany("OwnedProjects")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.HasOne("TaskPRO.Domain.entities.User", null)
-                        .WithMany("OwnedProjects")
-                        .HasForeignKey("UserId1");
 
                     b.Navigation("User");
                 });

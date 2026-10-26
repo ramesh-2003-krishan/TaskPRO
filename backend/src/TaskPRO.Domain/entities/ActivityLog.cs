@@ -10,7 +10,9 @@ namespace TaskPRO.Domain.entities
         public User? User { get; set; }
         public String Action { get; set; } = string.Empty;
         public String Entity { get; set; } = string.Empty;
-        public int EntityId { get; set; }
+        public Guid? ProjectId { get; set; }
+        public String? Details { get; set; }
+        public int? EntityId { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }
 }

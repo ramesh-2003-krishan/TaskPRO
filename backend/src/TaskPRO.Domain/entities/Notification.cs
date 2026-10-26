@@ -12,6 +12,8 @@ namespace TaskPRO.Domain.entities
         public String Message { get; set; } = string.Empty;
         public NotificationType Type { get; set; } = NotificationType.System;
         public bool IsRead { get; set; } = false;
+        public Guid? ProjectId { get; set; }
+        public int? TaskItemId { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }
 }

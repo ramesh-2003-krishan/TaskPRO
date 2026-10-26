@@ -138,6 +138,15 @@ public class AppDBContext : DbContext, IAppDbContext
             .HasForeignKey(st => st.TaskItemId)
             .OnDelete(DeleteBehavior.Cascade);
 
+        modelBuilder.Entity<TaskAttachment>()
+            .HasOne(ta => ta.UploadedBy)
+            .WithMany()
+            .HasForeignKey(ta => ta.UploadedByUserId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<ActivityLog>().HasIndex(al => new { al.UserId, al.Entity, al.EntityId, al.Action, al.ProjectId }).IsUnique(false);
+        modelBuilder.Entity<Notification>().HasIndex(n => new { n.UserId, n.IsRead }).IsUnique(false);
+
     }
 
 
