@@ -1,10 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+
 using TaskPRO.Domain.enums;
 using TaskPRO.Domain.entities;
-using TaskPRO.Application.features.Projects.DTOs;
+
 
 namespace TaskPRO.Application.common.interfaces
 {
@@ -13,7 +10,7 @@ namespace TaskPRO.Application.common.interfaces
         Task<bool> CanViewProjectAsync(Guid projectId, Guid userId, bool isAdmin);
         Task<bool> CanEditProjectAsync(Guid projectId, Guid userId, bool isAdmin);
         Task<bool> CanDeleteProjectAsync(Guid projectId, Guid userId, bool isAdmin);
-        Task<ProjectprojectRole?> GetUserRoleInProjectAsync(Guid projectId, Guid userId);
+        Task<ProjectRole?> GetUserRoleInProjectAsync(Guid projectId, Guid userId);
         Task<ProjectMember?> GetProjectMemberAsync(Guid projectId, Guid userId);
         
     }

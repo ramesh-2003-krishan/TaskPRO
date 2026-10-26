@@ -213,7 +213,7 @@ namespace TaskPRO.Application.features.Projects.Services
             }
 
             var isValidRole = await _projectAuthorizationService.GetUserRoleInProjectAsync(projectId, CurrentUserId);
-            if(isValidRole != ProjectprojectRole.Owner && isValidRole != ProjectprojectRole.Manager)
+            if(isValidRole != ProjectRole.Admin && isValidRole != ProjectRole.ProjectManager)
             {
                 throw new Exception("You do not have permission to update this project");
             }
@@ -251,7 +251,7 @@ namespace TaskPRO.Application.features.Projects.Services
             }
             
             var isValidRole = await _projectAuthorizationService.GetUserRoleInProjectAsync(projectId, currentUserId);
-            if(isValidRole != ProjectprojectRole.Owner && isValidRole != ProjectprojectRole.Manager)
+            if(isValidRole != ProjectRole.Admin && isValidRole != ProjectRole.ProjectManager)
             {
                 throw new Exception("You do not have permission to update this project");
             }
@@ -297,7 +297,7 @@ namespace TaskPRO.Application.features.Projects.Services
             }
 
             var isValidRole = await _projectAuthorizationService.GetUserRoleInProjectAsync(projectId, userId);
-            if(isValidRole != ProjectprojectRole.Owner && isValidRole != ProjectprojectRole.Manager)
+            if(isValidRole != ProjectRole.Admin && isValidRole != ProjectRole.ProjectManager)
             {
                 throw new Exception("You do not have permission to update this project member's role");
             }
@@ -361,7 +361,7 @@ namespace TaskPRO.Application.features.Projects.Services
             }
 
             var isValidRole = await _projectAuthorizationService.GetUserRoleInProjectAsync(projectId, userId);
-            if(isValidRole != ProjectprojectRole.Owner && isValidRole != ProjectprojectRole.Manager)
+            if(isValidRole != ProjectRole.Admin && isValidRole != ProjectRole.ProjectManager)
             {
                 throw new Exception("You do not have permission to remove this project member");
             }

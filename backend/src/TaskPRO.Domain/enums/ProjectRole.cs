@@ -19,12 +19,3 @@ namespace TaskPRO.Domain.enums
     }
 }
 
-namespace TaskPRO.Domain.enums
-{
-    public enum ProjectprojectRole
-    {
-        Owner,
-        Member,
-        Manager
-    }
-}

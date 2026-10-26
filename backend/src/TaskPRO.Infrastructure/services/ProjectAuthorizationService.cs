@@ -17,20 +17,13 @@ namespace TaskPRO.Infrastructure.services
         {
             _dbContext = dbContext;
         }
-         public async Task<ProjectprojectRole?> GetUserRoleInProjectAsync(Guid projectId, Guid userId)
+         public async Task<ProjectRole?> GetUserRoleInProjectAsync(Guid projectId, Guid userId)
         {
-            var project = await _dbContext.Projects
-                .Include(p => p.ProjectMembers)
-                .FirstOrDefaultAsync(p => p.Id == projectId);
+            var projectMember = await _dbContext.ProjectMembers
+                .AsNoTracking()
+                .FirstOrDefaultAsync(pm => pm.ProjectId == projectId && pm.UserId == userId);
 
-            if (project == null) return null;
-
-            var userRole = project.ProjectMembers
-                .Where(pu => pu.UserId == userId)
-                .Select(pu => (ProjectprojectRole?)pu.Role)
-                .FirstOrDefault();
-
-            return userRole;
+            return ProjectRole.Member; 
         }
         public async Task<bool> CanViewProjectAsync(Guid projectId, Guid userId, bool isAdmin)
         {
@@ -45,7 +38,7 @@ namespace TaskPRO.Infrastructure.services
             if (isAdmin) return true;
 
             var role = await GetUserRoleInProjectAsync(projectId, userId);
-            return role == ProjectprojectRole.Owner || role == ProjectprojectRole.Manager;
+            return role == ProjectRole.Admin || role == ProjectRole.ProjectManager;
         }
 
         public async Task<bool> CanDeleteProjectAsync(Guid projectId, Guid userId, bool isAdmin)
@@ -53,20 +46,13 @@ namespace TaskPRO.Infrastructure.services
             if (isAdmin) return true;
 
             var role = await GetUserRoleInProjectAsync(projectId, userId);
-            return role == ProjectprojectRole.Owner;
+            return role == ProjectRole.Admin;
         }
         public async Task<ProjectMember?> GetProjectMemberAsync(Guid projectId, Guid userId)
         {
-            var project = await _dbContext.Projects
-                .Include(p => p.ProjectMembers)
-                .FirstOrDefaultAsync(p => p.Id == projectId);
-
-            if (project == null) return null;
-
-            var Member = project.ProjectMembers
-                .FirstOrDefault(pm => pm.UserId == userId);
-
-            return Member;
+         return await _dbContext.ProjectMembers
+                .AsNoTracking()
+                .FirstOrDefaultAsync(pm => pm.ProjectId == projectId && pm.UserId == userId);
         }
 
        
