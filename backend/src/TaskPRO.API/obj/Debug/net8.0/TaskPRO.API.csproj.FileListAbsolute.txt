@@ -10,6 +10,7 @@ C:\Projects\project 15\TaskPRO\backend\src\TaskPRO.API\bin\Debug\net8.0\FluentVa
 C:\Projects\project 15\TaskPRO\backend\src\TaskPRO.API\bin\Debug\net8.0\FluentValidation.AspNetCore.dll
 C:\Projects\project 15\TaskPRO\backend\src\TaskPRO.API\bin\Debug\net8.0\FluentValidation.DependencyInjectionExtensions.dll
 C:\Projects\project 15\TaskPRO\backend\src\TaskPRO.API\bin\Debug\net8.0\Humanizer.dll
+C:\Projects\project 15\TaskPRO\backend\src\TaskPRO.API\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 C:\Projects\project 15\TaskPRO\backend\src\TaskPRO.API\bin\Debug\net8.0\Microsoft.AspNetCore.OpenApi.dll
 C:\Projects\project 15\TaskPRO\backend\src\TaskPRO.API\bin\Debug\net8.0\Microsoft.Bcl.AsyncInterfaces.dll
 C:\Projects\project 15\TaskPRO\backend\src\TaskPRO.API\bin\Debug\net8.0\Microsoft.Bcl.Cryptography.dll
@@ -27,6 +28,8 @@ C:\Projects\project 15\TaskPRO\backend\src\TaskPRO.API\bin\Debug\net8.0\Microsof
 C:\Projects\project 15\TaskPRO\backend\src\TaskPRO.API\bin\Debug\net8.0\Microsoft.IdentityModel.Abstractions.dll
 C:\Projects\project 15\TaskPRO\backend\src\TaskPRO.API\bin\Debug\net8.0\Microsoft.IdentityModel.JsonWebTokens.dll
 C:\Projects\project 15\TaskPRO\backend\src\TaskPRO.API\bin\Debug\net8.0\Microsoft.IdentityModel.Logging.dll
+C:\Projects\project 15\TaskPRO\backend\src\TaskPRO.API\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.dll
+C:\Projects\project 15\TaskPRO\backend\src\TaskPRO.API\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 C:\Projects\project 15\TaskPRO\backend\src\TaskPRO.API\bin\Debug\net8.0\Microsoft.IdentityModel.Tokens.dll
 C:\Projects\project 15\TaskPRO\backend\src\TaskPRO.API\bin\Debug\net8.0\Microsoft.OpenApi.dll
 C:\Projects\project 15\TaskPRO\backend\src\TaskPRO.API\bin\Debug\net8.0\Mono.TextTemplating.dll
@@ -124,6 +127,3 @@ C:\Projects\project 15\TaskPRO\backend\src\TaskPRO.API\obj\Debug\net8.0\refint\T
 C:\Projects\project 15\TaskPRO\backend\src\TaskPRO.API\obj\Debug\net8.0\TaskPRO.API.pdb
 C:\Projects\project 15\TaskPRO\backend\src\TaskPRO.API\obj\Debug\net8.0\TaskPRO.API.genruntimeconfig.cache
 C:\Projects\project 15\TaskPRO\backend\src\TaskPRO.API\obj\Debug\net8.0\ref\TaskPRO.API.dll
-C:\Projects\project 15\TaskPRO\backend\src\TaskPRO.API\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
-C:\Projects\project 15\TaskPRO\backend\src\TaskPRO.API\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.dll
-C:\Projects\project 15\TaskPRO\backend\src\TaskPRO.API\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll

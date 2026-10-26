@@ -6,7 +6,8 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using TaskPRO.Domain.entities;
-
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace TaskPRO.Infrastructure.services
 {
@@ -19,11 +20,11 @@ namespace TaskPRO.Infrastructure.services
         }
          public async Task<ProjectRole?> GetUserRoleInProjectAsync(Guid projectId, Guid userId)
         {
-            var projectMember = await _dbContext.ProjectMembers
+           var projectMember = await _dbContext.ProjectMembers
                 .AsNoTracking()
                 .FirstOrDefaultAsync(pm => pm.ProjectId == projectId && pm.UserId == userId);
 
-            return ProjectRole.Member; 
+            return projectMember?.Role; 
         }
         public async Task<bool> CanViewProjectAsync(Guid projectId, Guid userId, bool isAdmin)
         {

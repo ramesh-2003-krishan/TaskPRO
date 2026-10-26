@@ -39,7 +39,13 @@ namespace TaskPRO.Infrastructure.repositories
                 throw new KeyNotFoundException($"Task with ID {taskItem.Id} was not found.");
             }
 
-            _dbContext.Tasks.Update(taskItem);
+            existingTask.Title = taskItem.Title;
+            existingTask.Description = taskItem.Description;
+            existingTask.DueDate = taskItem.DueDate;
+            existingTask.Priority = taskItem.Priority;
+            existingTask.UpdatedAt = DateTime.UtcNow;
+            existingTask.Status = taskItem.Status;
+            
             await _dbContext.SaveChangesAsync();
             return taskItem;
         }

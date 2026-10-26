@@ -17,7 +17,7 @@ namespace TaskPRO.Infrastructure.configuration
             .WithMany(u => u.OwnedProjects)
             .HasForeignKey(p => p.UserId)
             .IsRequired()
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.Restrict);
 
 
         }

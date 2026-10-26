@@ -91,10 +91,6 @@ public class AppDBContext : DbContext, IAppDbContext
             entity.Property(p=>p.Status)
             .HasConversion<string>();
 
-            entity.HasOne(p=>p.User)
-            .WithMany()
-            .HasForeignKey(p=>p.UserId)
-            .OnDelete(DeleteBehavior.Restrict);
         });
             
 
