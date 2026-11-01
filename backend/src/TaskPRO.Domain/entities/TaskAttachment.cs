@@ -14,4 +14,6 @@ using TaskPRO.Domain.entities;
         public Guid UploadedByUserId { get; set; }
         public User? UploadedBy { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime UploadedAt { get; set; } = DateTime.UtcNow;
     }
