@@ -9,5 +9,6 @@ namespace TaskPRO.Application.common.interfaces
        Task<IEnumerable<NotificationResponse>> GetNotificationsAsync(string userId, CancellationToken ct = default);
          Task MarkAsReadAsync(string notificationId, CancellationToken ct = default);
          Task<IEnumerable<NotificationResponse>> GetUnreadNotificationsAsync(string userId, CancellationToken ct = default);
+        Task<NotificationResponse> CreateNotificationAsync(NotificationResponse notificationDTO);
     }
 }
