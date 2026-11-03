@@ -16,6 +16,15 @@ using TaskPRO.Application.features.Users.Interfaces;
 using TaskPRO.Application.features.Users.Services;
 using TaskPRO.Application.features.SubTask.Interfaces;
 using TaskPRO.Application.features.SubTask.Service;
+using TaskPRO.Application.common.interfaces;
+using TaskPRO.Infrastructure.services;
+using TaskPRO.Application.features.Notifications.DTOs;
+using TaskPRO.Application.features.Attachments.Interfaces;
+using TaskPRO.Application.features.Attachments.DTOs;
+using TaskPRO.Application.features.ActivityLogs.DTOs;
+using TaskPRO.Infrastructure.Storage;
+
+
 
 namespace TaskPRO.Infrastructure;
 
@@ -53,6 +62,10 @@ public static class DependencyInjection
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<ISubTaskRepository, SubTaskRepository>();
         services.AddScoped<ISubTaskService, SubTaskService>();
+        services.AddScoped<INotificationService, NotificationService>();
+        services.AddScoped<IActivityLogService, ActivityLogService>();
+        services.AddScoped<ITaskAttachmentService, TaskAttachmentService>();
+        services.AddScoped<IFileStorageService, LocalFileStorageService>();
 
         return services;
     }
