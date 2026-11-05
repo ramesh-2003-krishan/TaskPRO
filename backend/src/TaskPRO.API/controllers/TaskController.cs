@@ -22,7 +22,7 @@ namespace TaskPRO.API.controllers
             _currentUserService = currentUserService;
         }
 
-        [HttpPost]
+        [HttpPost("{projectId:guid}/tasks")]
         public async Task<ActionResult<CreateTaskRequest>> CreateTask ([FromBody]CreateTaskRequest request)
         {
             var currentUserId = _currentUserService.UserId;
@@ -46,9 +46,10 @@ namespace TaskPRO.API.controllers
             return Ok(task);
         }
 
-        [HttpPut("{projectId}")]
+        [HttpPut("{projectId:guid}/tasks/{taskId:int}")]
         public async Task<ActionResult<UpdateTaskRequest>> UpdateTask (Guid projectId, [FromBody]UpdateTaskRequest request)
         {
+            
             var currentUserId = _currentUserService.UserId;
             if(currentUserId == null)
             {
@@ -125,6 +126,19 @@ namespace TaskPRO.API.controllers
 
             var tasks = await _taskService.GetTasksByProjectIdAsync(projectId, pageNumber, pageSize);
             return Ok(tasks);
+        }
+
+        [HttpGet("{projectId:guid}/tasks/count")]
+        public async Task<ActionResult<int>> GetTotalTaskCount(Guid projectId)
+        {
+            var currentUserId = _currentUserService.UserId;
+            if (currentUserId == null)
+            {
+                throw new Exception("you are not allowed to view task count");
+            }
+
+            var totalTasks = await _taskService.GetTotalTaskCountAsync(projectId);
+            return Ok(totalTasks);
         }
     }
 }

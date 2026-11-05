@@ -87,7 +87,7 @@ namespace TaskPRO.Infrastructure.repositories
             await _dbContext.SaveChangesAsync();
             return taskItem;
         }
-        public async Task<IEnumerable<TaskItem>> SortTaskRequestAsync(SortTaskRequest request, Guid projectId)
+        public async Task<IEnumerable<TaskResponse>> SortTaskRequestAsync(SortTaskRequest request, Guid projectId)
         {
             var tasksQuery = _dbContext.Tasks.AsQueryable();
 
@@ -104,7 +104,18 @@ namespace TaskPRO.Infrastructure.repositories
                 _ => throw new ArgumentException($"Invalid SortBy value: {request.SortBy}")
             };
 
-            return await tasksQuery.ToListAsync();
+            var taskResponses = await tasksQuery.Select(t => new TaskResponse
+            {
+                Id = t.Id,
+                Title = t.Title,
+                Description = t.Description,
+                DueDate = t.DueDate,
+                Priority = t.Priority,
+                Status = t.Status,
+                AssignedToUserId = t.AssignedToUserId
+            }).ToListAsync();
+
+            return taskResponses;
         }
         public async Task<TaskItem?> UnAssignTaskRequestAsync(int taskId, Guid projectId)
         {
@@ -129,11 +140,16 @@ namespace TaskPRO.Infrastructure.repositories
             tasksQuery = tasksQuery.Where(t => t.ProjectId == projectId);
 
             var paginatedTasks = await tasksQuery
+                .OrderBy(t => t.Id) 
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
 
             return paginatedTasks;
+        }
+        public async Task<int> GetTotalTaskCountAsync(Guid projectId)
+        {
+            return await _dbContext.Tasks.CountAsync(t => t.ProjectId == projectId);
         }
     }
 }

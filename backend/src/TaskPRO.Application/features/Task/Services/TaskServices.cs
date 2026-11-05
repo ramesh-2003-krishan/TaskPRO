@@ -2,6 +2,7 @@ using TaskPRO.Application.features.Task.DTOs;
 using TaskPRO.Application.features.Task.Interfaces;
 using TaskPRO.Application.interfaces;
 using TaskPRO.Domain.entities;
+using TaskPRO.Application.common.interfaces;
 
 
 namespace TaskPRO.Application.features.Task.Services
@@ -10,17 +11,69 @@ namespace TaskPRO.Application.features.Task.Services
     {
         private readonly ITaskRepository _taskRepository;
         private readonly ICurrentUserService _currentUserService;
+        private readonly IProjectAuthorizationService _projectAuthorizationService;
+        private readonly IActivityLogService _activityLogService;
+        private readonly INotificationService _notificationService;
 
-        public TaskServices(ITaskRepository taskRepository, ICurrentUserService currentUserService)
+        public TaskServices(ITaskRepository taskRepository, 
+                            ICurrentUserService currentUserService, 
+                            IProjectAuthorizationService projectAuthorizationService,
+                            IActivityLogService activityLogService,
+                            INotificationService notificationService)
         {
             _taskRepository = taskRepository;
             _currentUserService = currentUserService;
+            _projectAuthorizationService = projectAuthorizationService;
+            _activityLogService = activityLogService;
+            _notificationService = notificationService;
         }
+
+        private async Task<Guid> RequireMembershipAsync(Guid projectId)
+        {
+            var currentUserId = _currentUserService.UserId
+                ?? throw new UnauthorizedAccessException("An authenticated user is required.");
+
+            if (!await _projectAuthorizationService.CanViewProjectAsync(projectId, currentUserId, isAdmin: false))
+            {
+                throw new UnauthorizedAccessException("You do not have permission to view this project.");
+            }
+           
+            return currentUserId;
+        }
+        private async Task<Guid> RequireEditPermissionAsync(Guid projectId)
+        {
+            var currentUserId = _currentUserService.UserId
+                ?? throw new UnauthorizedAccessException("An authenticated user is required.");
+
+            if (!await _projectAuthorizationService.CanEditProjectAsync(projectId, currentUserId, isAdmin: false))
+            {
+                throw new UnauthorizedAccessException("You do not have permission to edit this project.");
+            }
+
+            return currentUserId;
+        }
+        private async Task<bool> EnsureAssigneeIsMemberOfProjectAsync(Guid projectId, Guid assigneeUserId)
+        {
+            var assigneeMember = await _projectAuthorizationService.GetProjectMemberAsync(projectId, assigneeUserId);
+            if (assigneeMember == null)
+            {
+                throw new InvalidOperationException("The user being assigned to the task is not a member of the project.");
+            }
+            return true;
+        }
+        
 
         public async Task<CreateTaskRequest> CreateTaskRequestAsync(CreateTaskRequest request, Guid projectId)
         {
             var createdByUserId = _currentUserService.UserId
                 ?? throw new UnauthorizedAccessException("An authenticated user is required to create a task.");
+            await RequireEditPermissionAsync(projectId);
+            
+            if (request.AssignedToUserId.HasValue)
+            {
+                await EnsureAssigneeIsMemberOfProjectAsync(projectId, request.AssignedToUserId.Value);
+            }
+            
 
             var taskItem = new TaskItem
             {
@@ -33,9 +86,8 @@ namespace TaskPRO.Application.features.Task.Services
                 ProjectId = projectId,
                 CreatedByUserId = createdByUserId
             };
-
+            
             var createdTask = await _taskRepository.CreateTaskRequestAsync(taskItem);
-
             return new CreateTaskRequest
             {
                 Title = createdTask.Title,
@@ -48,6 +100,8 @@ namespace TaskPRO.Application.features.Task.Services
         }
         public async Task<UpdateTaskRequest> UpdateTaskRequestAsync(UpdateTaskRequest request, Guid projectId)
         {
+            await RequireEditPermissionAsync(projectId);
+            
             var taskItem = new TaskItem
             {
                 Id = request.Id,
@@ -76,6 +130,10 @@ namespace TaskPRO.Application.features.Task.Services
 
         public async Task<AssignTaskRequest> AssignTaskRequestAsync(AssignTaskRequest request, Guid projectId, int taskId)
         {
+            await RequireMembershipAsync(projectId);
+            await EnsureAssigneeIsMemberOfProjectAsync(projectId, request.UserId);
+            await RequireEditPermissionAsync(projectId);
+
             var taskItem = new TaskItem
             {
                 Id = taskId,
@@ -119,6 +177,7 @@ namespace TaskPRO.Application.features.Task.Services
         }
         public async Task<DeleteTaskRequest> DeleteTaskRequestAsync(DeleteTaskRequest request, Guid projectId, int taskId)
         {
+            await RequireEditPermissionAsync(projectId);
             var deletedTask = await _taskRepository.DeleteTaskRequestAsync(taskId, projectId);
 
             if (deletedTask == null)
@@ -133,6 +192,7 @@ namespace TaskPRO.Application.features.Task.Services
         }
         public async Task<SortTaskRequest> SortTaskRequestAsync(SortTaskRequest request, Guid projectId)
         {
+            await RequireEditPermissionAsync(projectId);
             var sortedTasks = await _taskRepository.SortTaskRequestAsync(request, projectId);
 
             return new SortTaskRequest
@@ -178,6 +238,10 @@ namespace TaskPRO.Application.features.Task.Services
                     UpdatedAt = task.UpdatedAt
                 }).ToList()
             };
+        }
+        public async Task<int> GetTotalTaskCountAsync(Guid projectId)
+        {
+            return await _taskRepository.GetTotalTaskCountAsync(projectId);
         }
     }
 }
