@@ -4,6 +4,7 @@ import WeeklyProgressCard from "@/components/dashboard/WeeklyProgressCard";
 import WeeklyActivityCard from "@/components/dashboard/WeeklyActivityCard";
 import { mockProgress, mockWeekly, ActiveTasks } from "@/lib/mock";
 import ActiveTaskCard from "@/components/dashboard/ActiveTaskCard";
+import ProjectCard from "@/components/dashboard/ProjectCard";
 
 export default function DashboardPage() {
  
@@ -42,7 +43,13 @@ export default function DashboardPage() {
       <ActiveTaskCard key={task.task} {...task} />
     ))}
   </div>
-</section>
+  </section>
+
+  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+    <ProjectCard id ="1" name="project 1" description="Task management app" icon={CheckSquare} tone="accent"/>  
+    <ProjectCard id="2" name="Project 2" description="Game development" icon={CheckSquare} tone="accent"/>
+  </div>
     </div>
+    
   );
 }
