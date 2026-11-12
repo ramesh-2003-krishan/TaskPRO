@@ -24,7 +24,7 @@ export default function WeeklyProgressCard({ backlog, inProgress, inReview, done
   ];
 
   return (
-    <section className="rounded-xl border border-line bg-card p-6">
+    <section className="rounded-xl border border-line bg-card p-6 transition-transform duration-200 ease-out hover:scale-[1.1] hover:shadow-lg hover:shadow-accent/10">
       <h2 className="font-semibold">Progress</h2>
 
       

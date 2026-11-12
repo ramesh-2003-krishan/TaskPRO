@@ -16,7 +16,7 @@ const tones = {
 
 export default function StatCard({label, value, caption, icon: Icon, tone}: props) {
     return (
-        <div className="rounded-xl border border-line bg-card p-5">
+        <div className="rounded-xl border border-line bg-card p-5 transition-all hover:-translate-y-1 hover:border-accent/40 hover:shadow-lg hover:shadow-accent/10">
       <div className="flex items-start justify-between">
         <span className="text-sm text-muted">{label}</span>
         <div className={`flex h-9 w-9 items-center justify-center rounded-lg ${tones[tone]}`}>

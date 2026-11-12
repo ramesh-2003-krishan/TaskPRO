@@ -7,7 +7,7 @@ type ActiveTask = {
 
 export default function ActiveTaskCard({ task, date, status, profile }: ActiveTask) {
   return (
-    <div className="flex items-center gap-4 rounded-lg border border-line bg-card p-4">
+    <div className="flex items-center gap-4 rounded-lg border border-line bg-card p-4 transition-all hover:-translate-y-1 hover:border-accent/40 hover:shadow-lg hover:shadow-accent/10">
         <div className="flex h-10 w-10 items-center justify-center rounded-full bg-accent/10">
             <img src={profile} alt="Profile" className="h-6 w-6 rounded-full" />
         </div>

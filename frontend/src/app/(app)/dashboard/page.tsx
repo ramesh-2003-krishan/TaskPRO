@@ -30,7 +30,7 @@ export default function DashboardPage() {
         <WeeklyProgressCard {...mockProgress} />
       </section>
 
- <section className="rounded-xl border border-line bg-card p-6">
+ <section className="rounded-xl border border-line bg-card p-6 transition-all hover:-translate-y-1 hover:border-accent/40 hover:shadow-lg hover:shadow-accent/10">
   <div className="flex items-center justify-between">
     <h2 className="font-semibold">Active Tasks</h2>
     <a href="/my-tasks" className="text-sm text-accent hover:underline">
