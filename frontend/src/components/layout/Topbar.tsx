@@ -31,7 +31,7 @@ export default function Topbar() {
         <div className="flex rounded-lg border border-line bg-card p-0.5">
           {views.map((v) => {
             const href =
-              v === "Board" ? "/board" : v === "Dashboard" ? "/dashboard" : null;
+              v === "Board" ? "/board" : v === "Dashboard" ? "/dashboard" : v === "List" ? "/list":null;
             const active = href
               ? pathname === href || pathname.startsWith(`${href}/`)
               : view === v;

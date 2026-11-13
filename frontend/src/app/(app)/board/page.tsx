@@ -34,7 +34,8 @@ const sample: BoardTask[] = [
 export default function BoardPage({priority}:prior) {
     const p = priorityStyle[priority] ?? {badge:"",dot:""};
   return (
-    <div className="max-w-[320px]">
+    <section className="flex items-start gap-6 overflow-x-auto pb-4">
+    <div className="max-w-[320px] shrink-0">
       <div className="flex items-center gap-3">
           <span
             className={`inline-flex items-center gap-1.5 rounded-md px-2.5 py-1 text-xs font-semibold ${p.badge}`}
@@ -44,12 +45,66 @@ export default function BoardPage({priority}:prior) {
           <h1>Backlog</h1>
         </div>
         <br />
-    <div className="flex flex-col gap-2">
+       <div className="flex flex-col gap-2">
          {sample.map((task)=>(
         <TaskCard key={task.id} {...task}/>
-    ))}
-    </div>
+          ))}
+        </div>
    
     </div>
+    <div className="max-w-[320px] shrink-0" >
+      <div className="flex items-center gap-3">
+          <span
+            className={`inline-flex items-center gap-1.5 rounded-md px-2.5 py-1 text-xs font-semibold ${p.badge}`}
+          >
+            <span className={`h-2 w-2 rounded-full bg-warn`} />
+          </span>
+          <h1>InProgress</h1>
+        </div>
+        <br />
+       <div className="flex flex-col gap-2">
+         {sample.map((task)=>(
+        <TaskCard key={task.id} {...task}/>
+          ))}
+        </div>
+   
+    </div>
+
+    <div className="max-w-[320px] shrink-0" >
+      <div className="flex items-center gap-3">
+          <span
+            className={`inline-flex items-center gap-1.5 rounded-md px-2.5 py-1 text-xs font-semibold ${p.badge}`}
+          >
+            <span className={`h-2 w-2 rounded-full bg-fuchsia-700`} />
+          </span>
+          <h1>In Review</h1>
+        </div>
+        <br />
+       <div className="flex flex-col gap-2">
+         {sample.map((task)=>(
+        <TaskCard key={task.id} {...task}/>
+          ))}
+        </div>
+   
+    </div>
+
+    <div className="max-w-[320px] shrink-0" >
+      <div className="flex items-center gap-3">
+          <span
+            className={`inline-flex items-center gap-1.5 rounded-md px-2.5 py-1 text-xs font-semibold ${p.badge}`}
+          >
+            <span className={`h-2 w-2 rounded-full bg-red-700`} />
+          </span>
+          <h1>Done</h1>
+        </div>
+        <br />
+       <div className="flex flex-col gap-2">
+         {sample.map((task)=>(
+        <TaskCard key={task.id} {...task}/>
+          ))}
+        </div>
+   
+    </div>
+    </section>
   );
 }
