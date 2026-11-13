@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import {Bell, Plus, Search} from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const views = [
     "Dashboard",
@@ -10,7 +12,8 @@ const views = [
 ] as const;
 
 export default function Topbar() {
-    const[view, setView] = useState<(typeof views)[number]>("Dashboard");
+    const[view, setView] = useState<(typeof views)[number]>();
+    const pathname = usePathname();
 
     return (
         <header className="flex h-15.5 shrink-0 items-center justify-between gap-4 border-b border-line bg-page px-6">
@@ -26,17 +29,30 @@ export default function Topbar() {
       <div className="flex items-center gap-4">
        
         <div className="flex rounded-lg border border-line bg-card p-0.5">
-          {views.map((v) => (
-            <button
-              key={v}
-              onClick={() => setView(v)}
-              className={`rounded-md px-3.5 py-1.5 text-sm transition-colors ${
-                view === v ? "bg-accent font-medium text-white" : "text-muted hover:text-fg"
-              }`}
-            >
-              {v}
-            </button>
-          ))}
+          {views.map((v) => {
+            const href =
+              v === "Board" ? "/board" : v === "Dashboard" ? "/dashboard" : null;
+            const active = href
+              ? pathname === href || pathname.startsWith(`${href}/`)
+              : view === v;
+            const className = `rounded-md px-3.5 py-1.5 text-sm transition-colors ${
+              active ? "bg-accent font-medium text-white" : "text-muted hover:text-fg"
+            }`;
+
+            return href ? (
+              <Link key={v} href={href} className={className}>
+                {v}
+              </Link>
+            ) : (
+              <button
+                key={v}
+                onClick={() => setView(v)}
+                className={className}
+              >
+                {v}
+              </button>
+            );
+          })}
         </div>
 
     
