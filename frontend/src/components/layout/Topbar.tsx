@@ -1,9 +1,11 @@
 "use client"
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {Bell, Plus, Search} from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import NotificationsPanel from "../notification/NotificationBar";
+
 
 const views = [
     "Dashboard",
@@ -13,7 +15,22 @@ const views = [
 
 export default function Topbar() {
     const[view, setView] = useState<(typeof views)[number]>();
+    const [notificationsOpen, setNotificationsOpen] = useState(false);
     const pathname = usePathname();
+    const notificationsRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+      if (!notificationsOpen) return;
+
+      const handlePointerDown = (event: PointerEvent) => {
+        if (event.target instanceof Node && !notificationsRef.current?.contains(event.target)) {
+          setNotificationsOpen(false);
+        }
+      };
+
+      document.addEventListener("pointerdown", handlePointerDown);
+      return () => document.removeEventListener("pointerdown", handlePointerDown);
+    }, [notificationsOpen]);
 
     return (
         <header className="flex h-15.5 shrink-0 items-center justify-between gap-4 border-b border-line bg-page px-6">
@@ -48,6 +65,7 @@ export default function Topbar() {
                 key={v}
                 onClick={() => setView(v)}
                 className={className}
+                
               >
                 {v}
               </button>
@@ -56,10 +74,25 @@ export default function Topbar() {
         </div>
 
     
-        <button aria-label="Notifications" className="relative text-muted hover:text-fg">
-          <Bell size={18} />
-          <span className="absolute -right-0.5 -top-0.5 h-2 w-2 rounded-full bg-accent" />
-        </button>
+        <div ref={notificationsRef} className="relative">
+          <button
+            aria-label="Notifications"
+            aria-expanded={notificationsOpen}
+            className="relative text-muted hover:text-fg"
+            onClick={ 
+              () => setNotificationsOpen((open) => !open)
+            }
+            
+          >
+            <Bell size={18} />
+            <span className="absolute -right-0.5 -top-0.5 h-2 w-2 rounded-full bg-accent" />
+          </button>
+          {notificationsOpen && (
+            <div className="absolute right-0 top-full z-50 mt-2 w-[min(24rem,calc(100vw-2rem))]">
+              <NotificationsPanel />
+            </div>
+          )}
+        </div>
 
         <button className="flex h-9 items-center gap-2 rounded-lg bg-accent px-4 text-sm font-medium text-white hover:brightness-110">
           <Plus size={15} />
