@@ -135,7 +135,7 @@ export default function NotificationsPanel({ initialItems = sampleNotifications 
             </div>
 
             {actionError && <p role="alert" className="mt-3 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700 dark:bg-red-500/10 dark:text-red-300">{actionError}</p>}
-            <div className="mt-4 space-y-3">
+            <div className="mt-4 space-y-3 ">
                 {items.length === 0 ? (
                     <div className="rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-8 text-center dark:border-slate-600 dark:bg-slate-950/50">
                         <Bell className="mx-auto h-8 w-8 text-slate-400 dark:text-slate-500" />
@@ -155,18 +155,18 @@ export default function NotificationsPanel({ initialItems = sampleNotifications 
                         return (
                             <article
                                 key={notification.id}
-                                className={`rounded-2xl border p-4 transition ${
+                                className={`rounded-2xl border p-4  transition-all hover:-translate-y-1 hover:border-accent/40 hover:shadow-lg hover:shadow-accent/10 ${
                                     notification.isRead
                                         ? "border-slate-200 bg-white text-slate-600 dark:border-slate-700 dark:bg-slate-950/30 dark:text-slate-300"
                                         : "border-blue-200 bg-blue-50/70 text-slate-800 shadow-sm dark:border-blue-500/40 dark:bg-blue-500/10 dark:text-slate-100"
                                 }`}
                             >
-                                <div className="flex items-start gap-3">
+                                <div className="flex items-start gap-3 ">
                                     <div className={`mt-0.5 inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border ${typeClass}`}>
                                         <ItemIcon className="h-4 w-4" />
                                     </div>
 
-                                    <div className="min-w-0 flex-1">
+                                    <div className="min-w-0 flex-1 transition-all hover:-translate-y-1 hover:border-accent/40 hover:shadow-lg hover:shadow-accent/10">
                                         <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
                                             <div className="min-w-0">
                                                 <div className="flex flex-wrap items-center gap-2">
