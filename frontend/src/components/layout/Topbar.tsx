@@ -5,6 +5,7 @@ import {Bell, Plus, Search} from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import NotificationsPanel from "../notification/NotificationBar";
+import TaskForm from "../form/TaskForm";
 
 
 const views = [
@@ -16,8 +17,10 @@ const views = [
 export default function Topbar() {
     const[view, setView] = useState<(typeof views)[number]>();
     const [notificationsOpen, setNotificationsOpen] = useState(false);
+    const[formOpen, setFormOpen] = useState(false);
     const pathname = usePathname();
     const notificationsRef = useRef<HTMLDivElement>(null);
+    const formRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
       if (!notificationsOpen) return;
@@ -31,6 +34,19 @@ export default function Topbar() {
       document.addEventListener("pointerdown", handlePointerDown);
       return () => document.removeEventListener("pointerdown", handlePointerDown);
     }, [notificationsOpen]);
+
+    useEffect(()=>{
+      if(!formOpen) return;
+
+      const handlePointerDown = (event: PointerEvent)=>{
+        if(event.target instanceof Node && !formRef.current?.contains(event.target)){
+          setFormOpen(false);
+        }
+      };
+
+      document.addEventListener("pointerdown", handlePointerDown);
+      return ()=> document.removeEventListener("pointerdown", handlePointerDown);
+    },[formOpen])
 
     return (
         <header className="flex h-15.5 shrink-0 items-center justify-between gap-4 border-b border-line bg-page px-6">
@@ -93,11 +109,26 @@ export default function Topbar() {
             </div>
           )}
         </div>
-
-        <button className="flex h-9 items-center gap-2 rounded-lg bg-accent px-4 text-sm font-medium text-white hover:brightness-110">
+        
+        <div ref={formRef} className="relative">
+           <button 
+           aria-label="form"
+           aria-expanded={formOpen}
+           className="flex h-9 items-center gap-2 rounded-lg bg-accent px-4 text-sm font-medium text-white hover:brightness-110"
+           onClick={
+            ()=>setFormOpen((open)=>!open)
+           }
+           >
           <Plus size={15} />
           Add Task
         </button>
+        {formOpen && (
+           <div className="absolute right-0 top-full z-50 mt-2 w-[min(24rem,calc(100vw-2rem))]">
+              <TaskForm/>
+            </div>
+        )}
+        </div>
+       
       </div>
     </header>
   );
