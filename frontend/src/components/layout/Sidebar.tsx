@@ -19,7 +19,7 @@ import{mockProject, mockUser} from "@/lib/mock";
 
 const navigation = [
     { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
-    {name: "MyTasks", href: "/my-tasks", icon: CheckSquare},
+    {name: "MyTasks", href: "/myTask", icon: CheckSquare},
     {name:"Board", href:"/board", icon:LayoutGrid},
     {name:"Team", href:"/team", icon:User},
     {name:"Calendar", href:"/calendar", icon:Calendar},
