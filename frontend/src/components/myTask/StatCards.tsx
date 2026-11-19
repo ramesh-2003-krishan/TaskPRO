@@ -53,8 +53,8 @@ export default function ProgressCards({ backlog, inProgress, inReview, done }: p
               fill="none"
               strokeWidth={stroke}
               strokeLinecap="round"
-              strokeDasharray={`${filledInProgress} ${circumference}`}
-              className="stroke-accent"
+              strokeDasharray={`${filled} ${circumference}`}
+              className="stroke-gray-500"
             />
           </svg>
           <div className="absolute inset-0 flex flex-col items-center justify-center">
@@ -88,7 +88,7 @@ export default function ProgressCards({ backlog, inProgress, inReview, done }: p
               fill="none"
               strokeWidth={stroke}
               strokeLinecap="round"
-              strokeDasharray={`${filled} ${circumference}`}
+              strokeDasharray={`${filledInProgress} ${circumference}`}
               className="stroke-accent"
             />
           </svg>
@@ -124,7 +124,7 @@ export default function ProgressCards({ backlog, inProgress, inReview, done }: p
               strokeWidth={stroke}
               strokeLinecap="round"
               strokeDasharray={`${filledInReview} ${circumference}`}
-              className="stroke-accent"
+              className="stroke-amber-600"
             />
           </svg>
           <div className="absolute inset-0 flex flex-col items-center justify-center">
@@ -159,7 +159,7 @@ export default function ProgressCards({ backlog, inProgress, inReview, done }: p
               strokeWidth={stroke}
               strokeLinecap="round"
               strokeDasharray={`${filledDone} ${circumference}`}
-              className="stroke-accent"
+              className="stroke-green-700"
             />
           </svg>
           <div className="absolute inset-0 flex flex-col items-center justify-center">
