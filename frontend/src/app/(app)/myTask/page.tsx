@@ -2,14 +2,25 @@
 
 import ProgressCards from "@/components/myTask/StatCards";
 import StatCards from "@/components/myTask/StatCards";
-import { mockProgress } from "@/lib/mock";
+import { mockProgress, mockProjectCards } from "@/lib/mock";
 import MyTaskCard, {type ListTask} from "@/components/myTask/MyTaskCard"
 import { useState } from "react";
+import ProjectCard from "@/components/dashboard/ProjectCard";
+import { FolderKanban } from "lucide-react";
+import ProjectPieCard from "@/components/myTask/ProjectCard";
+
 
 const platform = { name: "Platform Redesign", color: "bg-accent" };
 const mobile = { name: "Mobile App", color: "bg-ok" };
 const api = { name: "API Integration", color: "bg-warn" };
 const design = { name: "Design System", color: "bg-pink" };
+
+const colorOf: Record<string, string> = {
+  "bg-accent": "var(--accent)",
+  "bg-ok": "var(--ok)",
+  "bg-warn": "var(--warn)",
+  "bg-pink": "var(--pink)",
+};
 
 
 const initialTasks: ListTask[] = [
@@ -48,6 +59,16 @@ export default function myTaskPage (){
               <section className="rounded-xl border border-line bg-card p-6 transition-transform duration-100 hover:scale+[0.5] hover:shadow-lg hover:shadow-accent">
                 <h1 className="font-semibold mb-6">My Tasks</h1>
                 <MyTaskCard tasks={tasks} onToggleStar={toggleStar} onDelete={deleteTask} onEdit={editTask} />
+              </section>
+
+              <section className="grid grid-cols-[repeat(auto-fit,minmax(220px,1fr))] gap-4">
+                <ProjectPieCard
+                    data={mockProjectCards.map((p) => ({
+                    name: p.name,
+                    value: p.openTasks,
+                    color: colorOf[p.color] ?? "var(--muted)",
+                     }))}
+                />
               </section>
 
         </div>

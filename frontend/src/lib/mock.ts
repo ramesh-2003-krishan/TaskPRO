@@ -54,4 +54,11 @@ export const ActiveTasks = [
     }
 ];
 
+export const mockProjectCards = [
+  { id: "1", name: "Platform Redesign", color: "bg-accent", openTasks: 24, progress: 80 },
+  { id: "2", name: "Mobile App", color: "bg-ok", openTasks: 18, progress: 60 },
+  { id: "3", name: "API Integration", color: "bg-warn", openTasks: 12, progress: 40 },
+  { id: "4", name: "Design System", color: "bg-pink", openTasks: 9, progress: 30 },
+];
+
 export default mockApi;
