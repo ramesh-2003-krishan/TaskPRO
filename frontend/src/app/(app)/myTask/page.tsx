@@ -4,10 +4,11 @@ import ProgressCards from "@/components/myTask/StatCards";
 import StatCards from "@/components/myTask/StatCards";
 import { mockProgress, mockProjectCards } from "@/lib/mock";
 import MyTaskCard, {type ListTask} from "@/components/myTask/MyTaskCard"
-import { useState } from "react";
+import { Activity, useState } from "react";
 import ProjectCard from "@/components/dashboard/ProjectCard";
 import { FolderKanban } from "lucide-react";
 import ProjectPieCard from "@/components/myTask/ProjectCard";
+import OtherActivity,{type props} from "@/components/myTask/OtherActivity";
 
 
 const platform = { name: "Platform Redesign", color: "bg-accent" };
@@ -37,6 +38,10 @@ const initialTasks: ListTask[] = [
   { id: 11, title: "Push notification service", starred: false, project: mobile, priority: "Medium", status: "Backlog", due: "Aug 22"},
 ];
 
+const initialOtherActivity: props[] = [
+  { Activity: "World cup match", Date: "2026/12/21", Time: "9:30 AM" },
+];
+
 export default function myTaskPage (){
     const [tasks, setTasks] = useState<ListTask[]>(initialTasks);
     
@@ -62,13 +67,19 @@ export default function myTaskPage (){
               </section>
 
               <section className="grid grid-cols-[repeat(auto-fit,minmax(220px,1fr))] gap-4">
-                <ProjectPieCard
+                <div className="grid grid-cols-[repeat(auto-fit,minmax(220px,1fr))] gap-4">
+                     <ProjectPieCard
                     data={mockProjectCards.map((p) => ({
                     name: p.name,
                     value: p.openTasks,
                     color: colorOf[p.color] ?? "var(--muted)",
                      }))}
-                />
+                   />
+                </div>
+                <div className="grid grid-cols-[repeat(auto-fit,minmax(220px,1fr))] gap-4">
+                   <OtherActivity activities={initialOtherActivity} />
+                </div>
+             
               </section>
 
         </div>
