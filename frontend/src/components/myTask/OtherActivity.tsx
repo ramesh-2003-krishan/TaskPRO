@@ -42,7 +42,7 @@ export default function OtherActivity({ activities }: { activities: props[] }) {
            }
            >
           <Plus size={15} />
-          Add Task
+          Add Activity
         </button>
         {formOpen && (
            <div className="absolute right-0 top-full z-50 mt-2 w-[min(24rem,calc(100vw-2rem))]">

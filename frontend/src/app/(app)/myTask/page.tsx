@@ -1,11 +1,9 @@
 "use client";
 
 import ProgressCards from "@/components/myTask/StatCards";
-import StatCards from "@/components/myTask/StatCards";
 import { mockProgress, mockProjectCards } from "@/lib/mock";
 import MyTaskCard, {type ListTask} from "@/components/myTask/MyTaskCard"
-import { Activity, useState } from "react";
-import ProjectCard from "@/components/dashboard/ProjectCard";
+import { Activity, useState,useRef } from "react";
 import { FolderKanban } from "lucide-react";
 import ProjectPieCard from "@/components/myTask/ProjectCard";
 import OtherActivity,{type props} from "@/components/myTask/OtherActivity";
@@ -44,6 +42,10 @@ const initialOtherActivity: props[] = [
 
 export default function myTaskPage (){
     const [tasks, setTasks] = useState<ListTask[]>(initialTasks);
+     const[formOpen, setFormOpen] = useState(false);
+  
+    const formRef = useRef<HTMLDivElement>(null);
+     
     
       const toggleStar = (id: number) =>
         setTasks((prev) => prev.map((t) => (t.id === id ? { ...t, starred: !t.starred } : t)));
