@@ -1,5 +1,6 @@
 "use client"
 
+import PerformanceCard from "@/components/team/PerformanceCard";
 import ProfileCard, { ProfileDetail } from "@/components/team/ProfileCard"
 import { mockProgress } from "@/lib/mock";
 import { useState } from "react";
@@ -10,6 +11,8 @@ const initialDetail : ProfileDetail [] = [
         Name: "Nimal Perera",
         Age: "22",
         Email: "nimal.perera@example.com",
+        AssignedTasks : 5,
+        CompletedTasks : 3,
         University: "University of Colombo",
         Profile: "https://i.pravatar.cc/300?img=11",
     },
@@ -18,6 +21,8 @@ const initialDetail : ProfileDetail [] = [
         Name: "Kavindi Fernando",
         Age: "21",
         Email: "kavindi.fernando@example.com",
+        AssignedTasks : 5,
+        CompletedTasks : 1,
         University: "University of Moratuwa",
         Profile: "https://i.pravatar.cc/300?img=47",
     },
@@ -26,6 +31,8 @@ const initialDetail : ProfileDetail [] = [
         Name: "Tharindu Silva",
         Age: "23",
         Email: "tharindu.silva@example.com",
+        AssignedTasks : 5,
+        CompletedTasks : 3,
         University: "University of Peradeniya",
         Profile: "https://i.pravatar.cc/300?img=33",
     },
@@ -34,6 +41,8 @@ const initialDetail : ProfileDetail [] = [
         Name: "Dilini Jayasuriya",
         Age: "20",
         Email: "dilini.jayasuriya@example.com",
+        AssignedTasks : 4,
+        CompletedTasks : 4,
         University: "University of Kelaniya",
         Profile: "https://i.pravatar.cc/300?img=45",
     },
@@ -42,6 +51,8 @@ const initialDetail : ProfileDetail [] = [
         Name: "Ruwan Bandara",
         Age: "24",
         Email: "ruwan.bandara@example.com",
+        AssignedTasks : 7,
+        CompletedTasks : 3,
         University: "University of Sri Jayewardenepura",
         Profile: "https://i.pravatar.cc/300?img=15",
     },
@@ -50,6 +61,8 @@ const initialDetail : ProfileDetail [] = [
         Name: "Sachini Wickramasinghe",
         Age: "22",
         Email: "sachini.w@example.com",
+        AssignedTasks : 8,
+        CompletedTasks : 7,
         University: "SLIIT",
         Profile: "",
     },
@@ -65,8 +78,17 @@ export default function teamPage(){
      console.log("edit profile", id); 
      };
     return(
-       <section>
-           <ProfileCard details={detail} onDelete={deleteProfile} onEdit={editProfile} />
-       </section>
+        <div>
+            <section>
+             <ProfileCard details={detail} onDelete={deleteProfile} onEdit={editProfile} />
+           </section>
+           <section>
+            <PerformanceCard
+                AssignedTasks={detail.reduce((total, profile) => total + profile.AssignedTasks, 0)}
+                CompletedTask={detail.reduce((total, profile) => total + profile.CompletedTasks, 0)}
+            />
+           </section>
+        </div>
+      
     );
 }

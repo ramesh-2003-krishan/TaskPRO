@@ -29,7 +29,7 @@ export default function OtherActivity({ activities }: { activities: props[] }) {
         },[formOpen])
     
     return(
-        <section className="overflow-hidden rounded-xl border border-line bg-card transition-all hover:-translate-y-1 hover:border-accent/40 hover:shadow-lg hover:shadow-accent/10">
+        <section className="overflow-hidden rounded-xl border border-line bg-card transition-all hover:-translate-y-1 hover:border-accent/40 hover:shadow-lg hover:shadow-accent/10 ">
             <div className="flex items-start justify-between px-5 pt-5 pb-3 font-semibold">
               <h2 className=" font-semibold">Other Activity</h2>
 <div ref={formRef} className="relative">

@@ -78,7 +78,7 @@ export default function myTaskPage (){
                      }))}
                    />
                 </div>
-                <div className="grid grid-cols-[repeat(auto-fit,minmax(220px,1fr))] gap-4">
+                <div className="grid grid-cols-[repeat(auto-fit,minmax(220px,1fr))] gap-4 ">
                   
                    <OtherActivity activities={initialOtherActivity} />
                 </div>
