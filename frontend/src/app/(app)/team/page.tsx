@@ -82,11 +82,9 @@ export default function teamPage(){
             <section>
              <ProfileCard details={detail} onDelete={deleteProfile} onEdit={editProfile} />
            </section>
-           <section>
-            <PerformanceCard
-                AssignedTasks={detail.reduce((total, profile) => total + profile.AssignedTasks, 0)}
-                CompletedTask={detail.reduce((total, profile) => total + profile.CompletedTasks, 0)}
-            />
+           <br />
+           <section >
+            <PerformanceCard members={detail}/>
            </section>
         </div>
       
