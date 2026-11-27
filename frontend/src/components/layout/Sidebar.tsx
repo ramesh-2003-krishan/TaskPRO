@@ -23,6 +23,7 @@ const navigation = [
     {name:"Board", href:"/board", icon:LayoutGrid},
     {name:"Team", href:"/team", icon:User},
     {name:"Calendar", href:"/calendar", icon:Calendar},
+    {name:"Settings", href:"/settings", icon:Settings},
 ];
 
 export default function Sidebar() {
@@ -86,8 +87,13 @@ export default function Sidebar() {
      
       <div className="border-t border-line px-3 py-3">
         <button className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm text-muted hover:bg-white/5 hover:text-fg">
-          <Settings size={16} />
-          Settings
+          <Link
+              href="/settings"
+              className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm text-muted hover:bg-white/5 hover:text-fg"
+              >
+              <Settings size={16} />
+               Settings
+          </Link>
         </button>
         <div className="mt-2 flex items-center gap-3 px-3 py-2">
           <div className="flex h-8 w-8 items-center justify-center rounded-full bg-accent text-xs font-semibold text-white">
